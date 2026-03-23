@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-group">
                     <label for="txtDescripcion">Descripcion</label>
-                    <textarea class="form-control" rows="2" id="txtDescripcion"></textarea>
+                    <textarea class="form-control" rows="3" id="txtDescripcion"></textarea>
                 </div>
             </div>
             <div class="modal-footer">

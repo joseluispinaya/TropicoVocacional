@@ -2,6 +2,11 @@
 let tablaData;
 let idEditar = 0;
 
+$(document).ready(function () {
+
+    listaUnidadesEd();
+});
+
 function listaUnidadesEd() {
     if ($.fn.DataTable.isDataTable("#tbDatas")) {
         $("#tbDatas").DataTable().destroy();
@@ -11,7 +16,7 @@ function listaUnidadesEd() {
     tablaData = $("#tbDatas").DataTable({
         responsive: true,
         "ajax": {
-            "url": 'PageUndsEducativas.aspx/ListaUnidadesEd',
+            "url": 'PageUndsEducativas.aspx/ListaUndEducativas',
             "type": "POST",
             "contentType": "application/json; charset=utf-8",
             "dataType": "json",
@@ -28,9 +33,10 @@ function listaUnidadesEd() {
         },
         "columns": [
             { "data": "IdUnidadEducativa", "visible": false, "searchable": false },
-            { "data": "Nombre" },
-            { "data": "Ubicacion" },
-            { "data": "NroContacto" },
+            { "data": "Nombre", "className": "align-middle" },
+            { "data": "NroContacto", "className": "align-middle" },
+            { "data": "Responsable", "className": "align-middle" },
+            { "data": "FechaCreado", "className": "align-middle" },
             {
                 "defaultContent": '<button class="btn btn-primary btn-editar btn-sm mr-2"><i class="fas fa-pencil-alt"></i></button>' +
                     '<button class="btn btn-info btn-detalle btn-sm"><i class="fas fa-address-book"></i></button>',
@@ -119,48 +125,11 @@ $("#btnGuardarCambios").on("click", function () {
         //Estado: ($("#cboEstado").val() == "1" ? true : false)
     }
 
-    console.log(objeto);
-
-    $("#mdData").find("div.modal-content").LoadingOverlay("show");
-
-    setTimeout(function () {
-        $("#mdData").find("div.modal-content").LoadingOverlay("hide");
-        $("#mdData").modal("hide");
-        //swal("Mensaje", "Todo bien sin problemas", "success")
-        MostrarAlerta("¡Guardado!", "El registro se guardó correctamente.", "success");
-        habilitarBoton();
-    }, 4000);
-
-})
-
-$("#btnGuardarCambiossss").on("click", function () {
-    // Bloqueo inmediato
-    $('#btnGuardarCambios').prop('disabled', true);
-
-    const inputs = $("#mdData input.model").serializeArray();
-    const inputs_sin_valor = inputs.filter(item => item.value.trim() === "");
-
-    if (inputs_sin_valor.length > 0) {
-        const mensaje = `Debe completar el campo : "${inputs_sin_valor[0].name}"`;
-        toastr.warning("", mensaje)
-        $(`input[name="${inputs_sin_valor[0].name}"]`).focus()
-        habilitarBoton();
-        return;
-    }
-
-    const objeto = {
-        IdUnidadEducativa: idEditar,
-        Nombre: $("#txtnombres").val().trim(),
-        NroContacto: $("#txtNroCel").val().trim(),
-        Ubicacion: $("#txtUbicacion").val().trim()
-        //Estado: ($("#cboEstado").val() == "1" ? true : false)
-    }
-
     $("#mdData").find("div.modal-content").LoadingOverlay("show");
 
     $.ajax({
         type: "POST",
-        url: "GradosPage.aspx/GuardarOrEditGradoAcademicos",
+        url: "PageUndsEducativas.aspx/GuardarOrEditUnidadesEdu",
         data: JSON.stringify({ objeto: objeto }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",

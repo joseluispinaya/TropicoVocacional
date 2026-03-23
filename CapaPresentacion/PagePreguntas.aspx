@@ -12,66 +12,57 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="body" runat="server">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-lg-7">
             <div class="card">
                 <div class="card-header bg-primary py-2 px-4">
-                    <h3 class="card-title m-0"><i class="fas fa-clipboard-list mr-2"></i>Registro de Preguntas</h3>
+                    <h3 class="card-title m-0"><i class="fas fa-clipboard-list mr-2"></i>Lista de Preguntas</h3>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <!-- <h6 class="mb-3 font-weight-bold text-primary text-center">Lista de Mesas Registradas</h6> -->
-                            <h5 class="m-b-15 m-t-0 text-center">Lista de Preguntas</h5>
+                    <table class="table table-striped table-bordered table-sm" id="tbPreguntas" cellspacing="0" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Preguntas</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-                            <table class="table table-striped table-bordered table-sm" id="tbPreguntas" cellspacing="0" style="width: 100%">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Titulo</th>
-                                        <th>Descripcion</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
 
-                        <div class="col-sm-5">
-                            <div class="card">
-                                <div class="card-header bg-primary py-2 px-4">
-                                    <h3 class="card-title m-0"><i class="fas fa-clipboard-list mr-2"></i>Registrar Nueva Pregunta</h3>
-                                </div>
-                                <div class="card-body">
-                                    <!-- <h6 class="mb-3 font-weight-bold text-primary text-center">Registro Rápido</h6> -->
-
-                                    <div class="form-group mb-3">
-                                        <label for="cboCuestionario">Select Cuestionario</label>
-                                        <select class="form-control form-control-sm" id="cboCuestionario">
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group mb-3">
-                                        <label for="txtPregunta">Nueva Pregunta</label>
-                                        <textarea class="form-control" rows="2" id="txtPregunta" placeholder="¿Nueva pregunta?"></textarea>
-                                    </div>
-                                    <hr />
-                                    <div class="form-row m-t-15">
-                                        <div class="form-group col-sm-6">
-                                            <button type="button" class="btn btn-success btn-block btn-sm" id="btnRegistrar">
-                                                <i class="fas fa-check-square mr-2"></i>Registrar
-                                            </button>
-                                        </div>
-                                        <div class="form-group col-sm-6">
-                                            <button class="btn btn-danger btn-block btn-sm" type="button" id="btnNuevore">
-                                                <i class="fas fa-broom mr-2"></i>Limpiar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <div class="col-lg-5">
+            <div class="card" style="border-left: 2px solid #3292e0 !important;">
+                <div class="card-header bg-primary py-2 px-4">
+                    <h3 class="card-title m-0 text-white"><i class="fas fa-clipboard-list mr-2"></i>Registrar Nueva Pregunta
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="form-group mb-3">
+                        <label for="cboCuestionario">Select Cuestionario</label>
+                        <select class="form-control form-control-sm" id="cboCuestionario">
+                        </select>
                     </div>
 
+                    <div class="form-group mb-3">
+                        <label for="txtPregunta">Nueva Pregunta</label>
+                        <textarea class="form-control" rows="2" id="txtPregunta" placeholder="¿Nueva pregunta?"></textarea>
+                    </div>
+                    <hr />
+                    <div class="form-row m-t-15">
+                        <div class="form-group col-sm-6">
+                            <button type="button" class="btn btn-success btn-block btn-sm" id="btnRegistrar">
+                                <i class="fas fa-check-square mr-2"></i>Guardar Cambios
+                            </button>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <button class="btn btn-danger btn-block btn-sm" type="button" id="btnNuevore">
+                                <i class="fas fa-broom mr-2"></i>Limpiar
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

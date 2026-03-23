@@ -380,12 +380,14 @@
     <Content Include="images\membrete.png" />
     <Content Include="images\sinimagen.png" />
     <Content Include="Inicio.aspx" />
+    <Content Include="js\Estudiantes.js" />
     <Content Include="js\Masterp.js" />
     <Content Include="js\PageCuestionario.js" />
     <Content Include="js\PageDirectores.js" />
     <Content Include="js\UnidsEducativas.js" />
     <Content Include="PageCuestionario.aspx" />
     <Content Include="PageDirectores.aspx" />
+    <Content Include="PageEstudiantes.aspx" />
     <Content Include="PagePreguntas.aspx" />
     <Content Include="PageUndsEducativas.aspx" />
     <Content Include="Web.config" />
@@ -411,6 +413,13 @@
     </Compile>
     <Compile Include="PageDirectores.aspx.designer.cs">
       <DependentUpon>PageDirectores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PageEstudiantes.aspx.cs">
+      <DependentUpon>PageEstudiantes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageEstudiantes.aspx.designer.cs">
+      <DependentUpon>PageEstudiantes.aspx</DependentUpon>
     </Compile>
     <Compile Include="PageHome.Master.cs">
       <DependentUpon>PageHome.Master</DependentUpon>
@@ -537,6 +546,16 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CapaEntidad\CapaEntidad.csproj">
+      <Project>{ca14cc42-6f58-4185-9bac-80f09fff7fd2}</Project>
+      <Name>CapaEntidad</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CapaNegocio\CapaNegocio.csproj">
+      <Project>{30cf3b6b-3a88-4083-909c-471af309e1c7}</Project>
+      <Name>CapaNegocio</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

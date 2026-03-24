@@ -178,7 +178,9 @@ $("#btnSwaler").on("click", function () {
 })
 
 $("#btnTimerau").on("click", function () {
-    toastr.error("No se pudo conectar con el servidor.");
+    MostrarToastZer("El registro se actualizó correctamente.", "Éxito", "success");
+    //MostrarToastZer("Debe seleccionar Und Educativa.", "Atención", "warning");
+    //MostrarToastFijo("No se pudo conectar con el servidor. Intente más tarde.", "Error de Conexión");
     //MostrarAlertaTimer("¡Guardado automático!", "Tus respuestas se han guardado.", 3000);
 })
 

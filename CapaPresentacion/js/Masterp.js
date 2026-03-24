@@ -68,6 +68,7 @@ function MostrarAlertaTimer(titulo, mensaje, timer) {
     swal({
         title: titulo,
         text: mensaje,
+        type: "success",
         // Si le pasas un valor a timer lo usa; si no, usa 2000 por defecto
         timer: timer || 2000,
         showConfirmButton: false
@@ -75,5 +76,34 @@ function MostrarAlertaTimer(titulo, mensaje, timer) {
 }
 //MostrarAlertaTimer("¡Guardado automático!", "Tus respuestas se han guardado.", 3000);
 //MostrarAlertaTimer("Cargando...", "Preparando tu test vocacional.");
+
+
+function MostrarToastZer(mensaje, titulo, tipo) {
+
+    toastr.options = {
+        "closeButton": true,          // Muestra una "X" para cerrar manualmente
+        "progressBar": true,          // Muestra una barra de tiempo agotándose
+        "positionClass": "toast-top-right", // Posición en pantalla
+        "preventDuplicates": false,   // Evita que el mismo mensaje se repita varias veces seguidas
+        "timeOut": "3000",            // Tiempo que dura en pantalla (3 segundos)
+        "extendedTimeOut": "1000"     // Tiempo extra si el usuario pasa el mouse por encima
+    };
+
+    // Si no se envía un tipo, por defecto será 'info'
+    let tipoToast = tipo || "info";
+
+    // Ejecutamos la función dinámica de toastr
+    toastr[tipoToast](mensaje, titulo || "");
+}
+
+function MostrarToastFijo(mensaje, titulo) {
+    // Le pasamos configuraciones específicas solo a esta alerta
+    toastr.error(mensaje, titulo || "Error Crítico", {
+        "timeOut": "0",             // 0 significa que no se cierra solo
+        "extendedTimeOut": "0",     // No se cierra al quitar el mouse
+        "closeButton": true,        // Obligamos a que tenga el botón de cerrar
+        "progressBar": false        // Quitamos la barra porque el tiempo es infinito
+    });
+}
 
 // fin codigo

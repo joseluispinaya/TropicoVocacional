@@ -12,5 +12,7 @@
         public string ClaveHash { get; set; }
         public string Photo { get; set; }
         public bool Estado { get; set; }
+        public string NombreUnidadEducativa { get; set; }
+        public string FullName => $"{Nombres} {Apellidos}";
     }
 }

@@ -38,10 +38,10 @@
                                 <thead>
                                     <tr>
                                         <th>Id</th>
-                                        <th>Imagen</th>
-                                        <th>Nombre Director</th>
+                                        <th>Nombre Directores</th>
                                         <th>Correo</th>
                                         <th>Nombre U.E.</th>
+                                        <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -71,8 +71,7 @@
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <label for="txtApellidos">Apellidos</label>
-                                    <input type="text" class="form-control input-sm model" id="txtApellidos"
-                                        name="Apellidos">
+                                    <input type="text" class="form-control input-sm model" id="txtApellidos" name="Apellidos">
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <label for="txtCorreo">Correo</label>

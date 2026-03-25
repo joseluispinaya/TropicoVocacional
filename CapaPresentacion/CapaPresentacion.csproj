@@ -87,6 +87,7 @@
     <Content Include="assets\css\elements.css" />
     <Content Include="assets\css\icons.css" />
     <Content Include="assets\css\inpfile.css" />
+    <Content Include="assets\css\miestilo.css" />
     <Content Include="assets\css\style.css" />
     <Content Include="assets\css\variables.css" />
     <Content Include="assets\css\_components.css" />
@@ -401,6 +402,7 @@
     <Content Include="js\Masterp.js" />
     <Content Include="js\PageCuestionario.js" />
     <Content Include="js\PageDirectores.js" />
+    <Content Include="js\PagePregunta.js" />
     <Content Include="js\UnidsEducativas.js" />
     <Content Include="PageCuestionario.aspx" />
     <Content Include="PageDirectores.aspx" />

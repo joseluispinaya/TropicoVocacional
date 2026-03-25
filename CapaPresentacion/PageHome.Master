@@ -28,6 +28,7 @@
 
     <link href="assets/css/icons.css" rel="stylesheet" type="text/css"/>
     <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="assets/css/miestilo.css" rel="stylesheet" type="text/css"/>
     <!-- <link href="assets/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet"/> -->
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>

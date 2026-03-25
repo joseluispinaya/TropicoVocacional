@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConexionBD.cs" />
+    <Compile Include="DCuestionario.cs" />
     <Compile Include="DDirector.cs" />
+    <Compile Include="DPregunta.cs" />
     <Compile Include="DUnidadEducativa.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

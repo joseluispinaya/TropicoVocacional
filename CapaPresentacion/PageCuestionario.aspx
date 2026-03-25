@@ -19,7 +19,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row justify-content-center mb-4">
-                        <button type="button" id="btnRegistro" class="btn btn-success btn-sm"><i class="fas fa-user-plus mr-2"></i>Nuevo Registro</button>
+                        <button type="button" id="btnRegistro" class="btn btn-primary btn-sm"><i class="fas fa-user-plus mr-2"></i>Nuevo Registro</button>
                     </div>
 
 
@@ -31,6 +31,7 @@
                                         <th>Id</th>
                                         <th>Titulo</th>
                                         <th>Descripcion</th>
+                                        <th>Preguntas</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -44,7 +45,7 @@
     </div>
 
     <div id="mdData" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title m-0" id="myModalLabel">Detalle</h4>
@@ -53,20 +54,51 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="txtTitulo">Titulo</label>
-                    <input type="text" class="form-control input-sm" id="txtTitulo" autocomplete="off">
+                    <input type="text" class="form-control input-sm form-new" id="txtTitulo" autocomplete="off">
                 </div>
                 <div class="form-group">
                     <label for="txtDescripcion">Descripcion</label>
-                    <textarea class="form-control" rows="3" id="txtDescripcion"></textarea>
+                    <textarea class="form-control form-new" rows="3" id="txtDescripcion"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Cerrar</button>
                 <button id="btnGuardarCambios" type="button" class="btn btn-sm btn-primary">Guardar Cambios</button>
             </div>
         </div>
     </div>
 </div>
+
+    <div id="mdDetalles" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabeldett" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title m-0" id="myModalLabeldett">Detalle</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="m-b-15 m-t-0 text-center">Lista de Preguntas</h5>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-sm table-striped table-bordered" id="tbPreguntas" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Preguntas</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button id="btnReport" type="button" class="btn btn-sm btn-primary">Generar Reporte</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footer" runat="server">
     <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>

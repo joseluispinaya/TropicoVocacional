@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="NCuestionario.cs" />
     <Compile Include="NDirector.cs" />
+    <Compile Include="NEstudiante.cs" />
     <Compile Include="NPregunta.cs" />
     <Compile Include="NUnidadEducativa.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

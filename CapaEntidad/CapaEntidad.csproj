@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Entidades\ECuestionario.cs" />
     <Compile Include="Entidades\EDirector.cs" />
+    <Compile Include="Entidades\EEstudiante.cs" />
     <Compile Include="Entidades\EPregunta.cs" />
     <Compile Include="Entidades\EUnidadEducativa.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

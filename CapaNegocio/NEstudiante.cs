@@ -1,11 +1,12 @@
-﻿using System;
+﻿using CapaDatos;
+using CapaEntidad.DTOs;
+using CapaEntidad.Entidades;
+using CapaEntidad.Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CapaDatos;
-using CapaEntidad.Entidades;
-using CapaEntidad.Responses;
 
 namespace CapaNegocio
 {
@@ -27,6 +28,11 @@ namespace CapaNegocio
         public Respuesta<List<EEstudiante>> ListarEstIdUndEd(int idUnidadEducativa)
         {
             return DEstudiante.GetInstance().ListarEstIdUndEd(idUnidadEducativa);
+        }
+
+        public Respuesta<int> RegistroEstAppNew(EstudianteDTO oModel)
+        {
+            return DEstudiante.GetInstance().RegistroEstAppNew(oModel);
         }
 
         public Respuesta<int> RegistroEstApp(EEstudiante oModel)

@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\EstudianteDTO.cs" />
+    <Compile Include="DTOs\LoginDTO.cs" />
+    <Compile Include="DTOs\PreguntaDTO.cs" />
     <Compile Include="Entidades\ECuestionario.cs" />
     <Compile Include="Entidades\EDirector.cs" />
     <Compile Include="Entidades\EEstudiante.cs" />

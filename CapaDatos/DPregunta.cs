@@ -1,12 +1,13 @@
-﻿using System;
+﻿using CapaEntidad.DTOs;
+using CapaEntidad.Entidades;
+using CapaEntidad.Responses;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
-using System.Data.SqlClient;
-using CapaEntidad.Entidades;
-using CapaEntidad.Responses;
 
 namespace CapaDatos
 {
@@ -139,6 +140,68 @@ namespace CapaDatos
             }
 
             return response;
+        }
+
+        public Respuesta<List<PreguntaDTO>> ObtenerPreguntasAleatorias(int cantidad = 6)
+        {
+            List<PreguntaDTO> lista = new List<PreguntaDTO>();
+
+            try
+            {
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand cmd = new SqlCommand("usp_ObtenerPreguntasAleatorias", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@Cantidad", cantidad);
+
+                        con.Open();
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                lista.Add(new PreguntaDTO
+                                {
+                                    IdPregunta = Convert.ToInt32(dr["IdPregunta"]),
+                                    IdCuestionario = Convert.ToInt32(dr["IdCuestionario"]),
+                                    Texto = dr["Texto"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+
+                // Validación: Si no hay preguntas
+                if (lista.Count == 0)
+                {
+                    return new Respuesta<List<PreguntaDTO>>
+                    {
+                        Estado = false,
+                        Valor = "warning",
+                        Mensaje = "No existen preguntas disponibles.",
+                        Data = lista // o null, dependiendo de tu preferencia
+                    };
+                }
+
+                // Éxito: Retornamos las preguntas aleatorias
+                return new Respuesta<List<PreguntaDTO>>
+                {
+                    Estado = true,
+                    Valor = "success",
+                    Mensaje = "Preguntas obtenidas",
+                    Data = lista
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<List<PreguntaDTO>>
+                {
+                    Estado = false,
+                    Valor = "error",
+                    Mensaje = "Ocurrió un error al obtener las preguntas: " + ex.Message,
+                    Data = null
+                };
+            }
         }
     }
 }

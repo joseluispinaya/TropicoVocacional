@@ -1,11 +1,12 @@
-﻿using System;
+﻿using CapaDatos;
+using CapaEntidad.DTOs;
+using CapaEntidad.Entidades;
+using CapaEntidad.Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CapaDatos;
-using CapaEntidad.Entidades;
-using CapaEntidad.Responses;
 
 namespace CapaNegocio
 {
@@ -31,6 +32,11 @@ namespace CapaNegocio
         public Respuesta<int> GuardarOrEditPregunta(EPregunta oModel)
         {
             return DPregunta.GetInstance().GuardarOrEditPregunta(oModel);
+        }
+
+        public Respuesta<List<PreguntaDTO>> ObtenerPreguntasAleatorias(int cantidad = 6)
+        {
+            return DPregunta.GetInstance().ObtenerPreguntasAleatorias(cantidad);
         }
     }
 }

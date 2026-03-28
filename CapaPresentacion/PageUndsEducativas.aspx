@@ -70,16 +70,16 @@
                     <div class="form-row">
                         <div class="form-group col-sm-6">
                             <label for="txtnombres">Nombre U.E.</label>
-                            <input type="text" class="form-control input-sm model" id="txtnombres" name="Nombre U.E.">
+                            <input type="text" class="form-control input-sm form-new model" id="txtnombres" name="Nombre U.E.">
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="txtNroCel">Nro Cel</label>
-                            <input type="text" class="form-control input-sm model" id="txtNroCel" name="Nro cel">
+                            <input type="text" class="form-control input-sm form-new model" id="txtNroCel" name="Nro cel">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="txtUbicacion">Ubicacion</label>
-                        <input type="text" class="form-control input-sm model" id="txtUbicacion" name="Ubicacion">
+                        <input type="text" class="form-control input-sm form-new model" id="txtUbicacion" name="Ubicacion">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -89,6 +89,39 @@
             </div>
         </div>
     </div>
+
+    <div id="mdDetalles" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabeldett" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title m-0" id="myModalLabeldett">Detalle</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="m-b-15 m-t-0 text-center">Lista de Estudiantes</h5>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table table-sm table-striped table-bordered" id="tbDetalleEs" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Estudiantes</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"><i class="fas fa-window-close mr-2"></i>Cerrar</button>
+                    <button id="btnReport" type="button" class="btn btn-sm btn-primary"><i class="fas fa-file-pdf mr-2"></i>Generar Reporte</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="footer" runat="server">
     <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -109,6 +142,9 @@
 
     <script src="assets/plugins/datatables/dataTables.responsive.min.js"></script>
     <script src="assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
     <script src="js/UnidsEducativas.js?v=<%= DateTime.Now.ToString("yyyyMMddHHmmss") %>" type="text/javascript"></script>
 </asp:Content>

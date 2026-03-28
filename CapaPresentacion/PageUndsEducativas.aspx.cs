@@ -25,6 +25,12 @@ namespace CapaPresentacion
         }
 
         [WebMethod]
+        public static Respuesta<List<EEstudiante>> ListarEstIdUndEd(int IdUnidadEdu)
+        {
+            return NEstudiante.GetInstance().ListarEstIdUndEd(IdUnidadEdu);
+        }
+
+        [WebMethod]
         public static Respuesta<List<EUnidadEducativa>> ListaUndEducativasDisponibles(int IdUnidadEdu)
         {
             return NUnidadEducativa.GetInstance().ListaUndEducativasDisponibles(IdUnidadEdu);

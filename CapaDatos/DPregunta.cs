@@ -203,5 +203,48 @@ namespace CapaDatos
                 };
             }
         }
+
+        public Respuesta<List<ECarrera>> ListaCarreras()
+        {
+            try
+            {
+                List<ECarrera> rptLista = new List<ECarrera>();
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand comando = new SqlCommand("usp_ListarCarrera", con))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        con.Open();
+                        using (SqlDataReader dr = comando.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                rptLista.Add(new ECarrera()
+                                {
+                                    IdCarrera = Convert.ToInt32(dr["IdCarrera"]),
+                                    Nombre = dr["Nombre"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+                return new Respuesta<List<ECarrera>>()
+                {
+                    Estado = true,
+                    Data = rptLista,
+                    Mensaje = "Lista obtenida correctamente"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<List<ECarrera>>()
+                {
+                    Estado = false,
+                    Data = null,
+                    Mensaje = $"Error al obtener la lista de carreras: {ex.Message}"
+                };
+            }
+        }
+
     }
 }

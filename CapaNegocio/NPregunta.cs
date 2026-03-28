@@ -38,5 +38,10 @@ namespace CapaNegocio
         {
             return DPregunta.GetInstance().ObtenerPreguntasAleatorias(cantidad);
         }
+
+        public Respuesta<List<ECarrera>> ListaCarreras()
+        {
+            return DPregunta.GetInstance().ListaCarreras();
+        }
     }
 }

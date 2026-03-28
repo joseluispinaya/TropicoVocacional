@@ -91,14 +91,6 @@ namespace CapaPresentacion.Api
             return Ok(respuesta);
         }
 
-        [HttpGet]
-        [Route("preguntas")]
-        public IHttpActionResult PreguntasRandon()
-        {
-            var respuesta = NPregunta.GetInstance().ObtenerPreguntasAleatorias(7);
-            return Ok(respuesta);
-        }
-
         [HttpPost]
         [Route("loginApp")]
         public IHttpActionResult LoginEstudiante([FromBody] LoginDTO loginDTO)

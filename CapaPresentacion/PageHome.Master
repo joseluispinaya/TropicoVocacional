@@ -148,10 +148,10 @@
                             </li>
 
                             <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-brightness-7"></i><span> Estudiantes </span><span class="float-right"><i class="mdi mdi-plus"></i></span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-brightness-7"></i><span> Consultas </span><span class="float-right"><i class="mdi mdi-plus"></i></span></a>
                                 <ul class="list-unstyled">
-                                    <li><a href="PageEstudiantes.aspx">Registro</a></li>
-                                    <li><a href="javascript:void(0)">Mascotas</a></li>
+                                    <li><a href="PageEstudiantes.aspx">Estudiantes</a></li>
+                                    <li><a href="javascript:void(0)">Directores</a></li>
                                 </ul>
                             </li>
 

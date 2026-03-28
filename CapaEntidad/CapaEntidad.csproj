@@ -41,9 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\DetalleHistDTO.cs" />
     <Compile Include="DTOs\EstudianteDTO.cs" />
+    <Compile Include="DTOs\HistorialTestDTO.cs" />
     <Compile Include="DTOs\LoginDTO.cs" />
     <Compile Include="DTOs\PreguntaDTO.cs" />
+    <Compile Include="DTOs\RecomendacionesDTO.cs" />
+    <Compile Include="DTOs\RespuestaItemDTO.cs" />
+    <Compile Include="DTOs\ResultadoIADTO.cs" />
+    <Compile Include="DTOs\ResultTestDTO.cs" />
+    <Compile Include="DTOs\SolicitudTestDTO.cs" />
+    <Compile Include="Entidades\ECarrera.cs" />
     <Compile Include="Entidades\ECuestionario.cs" />
     <Compile Include="Entidades\EDirector.cs" />
     <Compile Include="Entidades\EEstudiante.cs" />

@@ -28,6 +28,109 @@ function listaUnidadesEd() {
             },
             "dataSrc": function (json) {
                 if (json.d.Estado) {
+                    $("#txtTotalUE").text(json.d.Data.length);
+                    return json.d.Data;
+                } else {
+                    return [];
+                }
+            }
+        },
+        "columns": [
+            {
+                "data": "IdUnidadEducativa",
+                "visible": false,
+                "searchable": false
+            },
+            // UNIDAD EDUCATIVA + RESPONSABLE
+            {
+                "data": null,
+                "className": "align-middle",
+                "render": function (data, type, row) {
+                    return `
+                    <div class="d-flex align-items-center">
+                        <div class="icon-unidad mr-3">
+                            <i class="fas fa-school"></i>
+                        </div>
+                        <div>
+                            <div class="font-weight-bold text-dark">
+                                ${row.Nombre}
+                            </div>
+                            <small class="text-muted">
+                                <i class="fas fa-user-tie mr-1"></i>
+                                ${row.Responsable}
+                            </small>
+                        </div>
+                    </div>
+                    `;
+                }
+            },
+            // CONTACTO + FECHA
+            {
+                "data": null,
+                "className": "align-middle",
+                "render": function (data, type, row) {
+                    return `
+                    <div>
+                        <div class="mb-1">
+                            <i class="fas fa-phone text-success mr-1"></i>
+                            ${row.NroContacto}
+                        </div>
+                        <small class="text-muted">
+                            <i class="far fa-calendar-alt mr-1"></i>
+                            ${row.FechaCreado}
+                        </small>
+                    </div>
+                    `;
+                }
+            },
+
+            // ACCIONES
+            {
+                "defaultContent":
+                    `
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-sm btn-action btn-editar"
+                                title="Editar">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button class="btn btn-info btn-sm btn-action btn-detalle"
+                                title="Detalle">
+                            <i class="fas fa-address-book"></i>
+                        </button>
+                    </div>
+                `,
+                "orderable": false,
+                "searchable": false,
+                "width": "110px",
+                "className": "text-center align-middle"
+            }
+
+        ],
+        "order": [[0, "desc"]],
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
+        }
+    });
+}
+function listaUnidadesEdOri() {
+    if ($.fn.DataTable.isDataTable("#tbDatas")) {
+        $("#tbDatas").DataTable().destroy();
+        $('#tbDatas tbody').empty();
+    }
+
+    tablaData = $("#tbDatas").DataTable({
+        responsive: true,
+        "ajax": {
+            "url": 'PageUndsEducativas.aspx/ListaUndEducativas',
+            "type": "POST",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": function (d) {
+                return JSON.stringify(d);
+            },
+            "dataSrc": function (json) {
+                if (json.d.Estado) {
+                    $("#txtTotalUE").text(json.d.Data.length);
                     return json.d.Data;
                 } else {
                     return [];

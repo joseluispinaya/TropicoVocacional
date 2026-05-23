@@ -6,52 +6,161 @@
     <link href="assets/plugins/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/plugins/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        .card {
+            border-radius: 12px;
+        }
+
+        .table thead th {
+            border-top: 0;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .icon-unidad {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: rgba(0,123,255,.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #007bff;
+            font-size: 20px;
+        }
+
+        .table td {
+            vertical-align: middle !important;
+            /*font-size: 13px;*/
+        }
+
+        .btn-action {
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            border-radius: 8px;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            padding: 5px 10px;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            border-radius: 8px;
+        }
+
+        .table-hover tbody tr:hover {
+            background: #f8fbff;
+        }
+
+        .card-shadow {
+            box-shadow: 0 0 15px rgba(0,0,0,.05);
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="titulo" runat="server">
     Panel de Unidades Educativas
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="body" runat="server">
     <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header bg-primary py-2 px-4">
-                    <h3 class="card-title m-0"><i class="fas fa-school mr-2"></i>Lista de Unidades Educativas</h3>
+
+        <!-- PANEL IZQUIERDO -->
+        <div class="col-lg-4 mb-3">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body text-center">
+
+                    <div class="mb-4">
+                        <i class="fas fa-school"
+                            style="font-size: 70px; color: #007bff;"></i>
+                    </div>
+
+                    <h3 class="font-weight-bold mb-2">Unidades Educativas
+                    </h3>
+
+                    <p class="text-muted">
+                        Administra el registro de unidades educativas,
+                    responsables y datos de contacto.
+                    </p>
+
+                    <hr />
+
+                    <div class="row text-center mb-4">
+
+                        <div class="col-6">
+                            <h2 class="font-weight-bold text-primary mb-0" id="txtTotalUE">0
+                            </h2>
+                            <small class="text-muted">Registrados
+                            </small>
+                        </div>
+
+                        <div class="col-6">
+                            <h2 class="font-weight-bold text-success mb-0">
+                                <i class="fas fa-check-circle"></i>
+                            </h2>
+                            <small class="text-muted">Sistema Activo
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <button type="button"
+                        class="btn btn-primary btn-block btn-lg shadow-sm"
+                        id="btnRegistro">
+
+                        <i class="fas fa-plus-circle mr-2"></i>
+                        Nuevo Registro
+
+                    </button>
+
                 </div>
-                <div class="card-body">
-                    <div class="row justify-content-center mb-4">
-                        <button type="button" id="btnAlerFire" class="btn btn-danger btn-sm mr-3"><i class="fas fa-user-plus mr-2"></i>Confirmacion</button>
-                        <button type="button" id="btnSwaler" class="btn btn-success btn-sm mr-3"><i class="fas fa-address-book mr-2"></i>Decision</button>
-                        <button type="button" id="btnTimerau" class="btn btn-info btn-sm"><i class="fas fa-address-book mr-2"></i>Timer aut</button>
+
+            </div>
+
+        </div>
+
+        <!-- PANEL DERECHO -->
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0">
+
+                <div class="card-header bg-white border-0">
+
+                    <div class="d-flex justify-content-between align-items-center">
+
+                        <div>
+                            <h4 class="mb-0 font-weight-bold">
+                                <i class="fas fa-list text-primary mr-2"></i>
+                                Lista de Unidades Educativas
+                            </h4>
+
+                            <small class="text-muted">Información general registrada en el sistema
+                            </small>
+                        </div>
+
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-4 offset-md-4">
-                            <div class="form-inline">
-                                <div class="form-group">
-                                    <label class="sr-only" for="textlab">Estudiante</label>
-                                    <label class="fw-bold" id="textlab">Opcion</label>
-                                </div>
-                                <button type="button" class="btn btn-success btn-sm m-l-10" id="btnRegistro"><i class="fas fa-school mr-2"></i>Nuevo Registro</button>
-                            </div>
-                        </div>
-                    </div>
+                </div>
 
-                    <div class="row mt-3">
-                        <div class="col-lg-12 col-sm-12 col-12">
-                            <table id="tbDatas" class="table table-sm table-striped table-bordered" cellspacing="0" width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nombre U.E.</th>
-                                        <th>Contacto</th>
-                                        <th>Responsable</th>
-                                        <th>Fecha</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
+                <div class="card-body pt-2">
+                    <div class="table-responsive">
+
+                        <table id="tbDatas" class="table table-hover table-sm align-middle">
+
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Unidad Educativa</th>
+                                    <th>Información</th>
+                                    <th width="110">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
             </div>

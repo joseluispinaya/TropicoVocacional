@@ -47,6 +47,7 @@
     <Compile Include="NPregunta.cs" />
     <Compile Include="NRespuesta.cs" />
     <Compile Include="NUnidadEducativa.cs" />
+    <Compile Include="NUsuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

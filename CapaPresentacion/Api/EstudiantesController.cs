@@ -191,6 +191,91 @@ namespace CapaPresentacion.Api
             }
         }
 
+        [HttpPost]
+        [Route("editClave")]
+        public IHttpActionResult CambiarClave([FromBody] ChangeDTO changeDTO)
+        {
+            try
+            {
+                var utilidades = Utilidadesj.GetInstance();
+
+                if (changeDTO == null)
+                {
+                    return Ok(new Respuesta<bool>
+                    {
+                        Estado = false,
+                        Mensaje = "Debe enviar los datos requeridos.",
+                        Data = false
+                    });
+                }
+
+                if (string.IsNullOrEmpty(changeDTO.Correo) || string.IsNullOrEmpty(changeDTO.ClaveActual) || string.IsNullOrEmpty(changeDTO.ClaveNueva))
+                {
+                    return Ok(new Respuesta<bool>
+                    {
+                        Estado = false,
+                        Mensaje = "La contraseña actual y la nueva contraseña son obligatorios.",
+                        Data = false
+                    });
+                }
+
+                // 3. Llamada a la capa de datos
+                var resp = NEstudiante.GetInstance().LoginEstudiante(changeDTO.Correo);
+
+                // 4. Verificar si ocurrió un error grave en la BD (Manejado por el catch de la capa de datos)
+                if (!resp.Estado && resp.Mensaje == "Error servidor")
+                {
+                    return Ok(new Respuesta<bool>
+                    {
+                        Estado = false,
+                        Mensaje = "Ocurrió un error en el servidor. Intente más tarde.",
+                        Data = false
+                    });
+                }
+
+                // 5. Verificar si el estudiante existe en BD
+                if (!resp.Estado || resp.Data == null)
+                {
+                    return Ok(new Respuesta<bool>
+                    {
+                        Estado = false,
+                        Mensaje = "El estudiante no pudo ser encontrado",
+                        Data = false
+                    });
+                }
+
+                var objEst = resp.Data;
+
+                // 6. Verificamos la contraseña actual (BCrypt)
+                bool passCorrecta = utilidades.Verify(changeDTO.ClaveActual, objEst.ClaveHash);
+
+                if (!passCorrecta)
+                {
+                    return Ok(new Respuesta<bool>
+                    {
+                        Estado = false,
+                        Mensaje = "La Contraseña actual es incorrecta.",
+                        Data = false
+                    });
+                }
+
+                string claveNewEncrypt = utilidades.Hash(changeDTO.ClaveNueva);
+
+                Respuesta<bool> resultadoBD = NEstudiante.GetInstance().ActualizarClave(objEst.IdEstudiante, claveNewEncrypt);
+
+                return Ok(resultadoBD);
+            }
+            catch (Exception)
+            {
+                return Ok(new Respuesta<bool>
+                {
+                    Estado = false,
+                    Mensaje = "Error interno en el servidor.",
+                    Data = false
+                });
+            }
+        }
+
         //public string Get(int id)
         //{
         //    return "value";

@@ -255,5 +255,42 @@ namespace CapaDatos
             }
         }
 
+        public Respuesta<bool> ActualizarClave(int IdEstudiante, string NuevaClave)
+        {
+            try
+            {
+                bool respuesta = false;
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand cmd = new SqlCommand("usp_ActualizarClave", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@IdEstudiante", IdEstudiante);
+                        cmd.Parameters.AddWithValue("@NuevaClave", NuevaClave);
+
+                        SqlParameter outputParam = new SqlParameter("@Resultado", SqlDbType.Bit)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outputParam);
+
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        respuesta = Convert.ToBoolean(outputParam.Value);
+                    }
+                }
+                return new Respuesta<bool>
+                {
+                    Estado = respuesta,
+                    Mensaje = respuesta ? "Contraseña actualizada" : "Error al actualizar intente mas tarde"
+                };
+            }
+            catch (Exception)
+            {
+                return new Respuesta<bool> { Estado = false, Mensaje = "Ocurrió un error en la BD" };
+            }
+        }
+
     }
 }

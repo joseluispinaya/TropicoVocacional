@@ -44,5 +44,10 @@ namespace CapaNegocio
         {
             return DEstudiante.GetInstance().LoginEstudiante(Correo);
         }
+
+        public Respuesta<bool> ActualizarClave(int IdEstudiante, string NuevaClave)
+        {
+            return DEstudiante.GetInstance().ActualizarClave(IdEstudiante, NuevaClave);
+        }
     }
 }

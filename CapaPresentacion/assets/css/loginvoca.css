@@ -1,0 +1,116 @@
+﻿/* Fondo general de la página de Login con degradado oscuro */
+.login-wrapper {
+    background: linear-gradient(135deg, #050505 0%, #160a2b 50%, #041224 100%);
+    min-height: 100vh;
+}
+
+/* Tarjeta principal */
+.login-card {
+    background-color: #0d0f12; /* Gris muy oscuro */
+    border-radius: 15px;
+    overflow: hidden;
+    /* Sombra con brillo cian y magenta suaves */
+    box-shadow: 0 15px 35px rgba(0, 229, 255, 0.1), 0 0 20px rgba(232, 102, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Lado de la imagen (Fondo NEGRO PURO para fundirse con el JPG) */
+.login-image-section {
+    background-color: #000000;
+}
+
+/* Logo con una leve animación de flotación */
+.login-logo {
+    max-height: 350px;
+    animation: float 6s ease-in-out infinite;
+    /* filter: drop-shadow(0 0 15px rgba(0, 249, 255, 0.8)); */
+}
+
+/* Etiquetas de los inputs */
+.login-label {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #8a98ac;
+    font-weight: 600;
+}
+
+/* Cajas de texto personalizadas (Modo transparente) */
+.login-input {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(0, 229, 255, 0.3) !important; /* Borde cian suave */
+    color: #ffffff !important;
+    border-radius: 0 8px 8px 0;
+    height: 45px;
+}
+
+    /* Efecto al hacer clic en el input (Brillo Neón) */
+    .login-input:focus {
+        box-shadow: 0 0 15px rgba(0, 229, 255, 0.4) !important;
+        border-color: #00e5ff !important;
+        background-color: rgba(255, 255, 255, 0.06) !important;
+    }
+
+/* Íconos al lado de los inputs */
+.login-icon-box {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-right: none;
+    color: #00e5ff; /* Color cian neón */
+    border-radius: 8px 0 0 8px;
+}
+
+/* Efecto para que el ícono brille cuando el input tiene el foco */
+.input-group:focus-within .login-icon-box {
+    border-color: #00e5ff;
+    color: #fff;
+    background-color: #00e5ff;
+}
+
+/* Botón de Login con degradado combinando con el logo */
+.login-btn {
+    background: linear-gradient(45deg, #04a2b3, #715ded); /* Cian a Violeta */
+    border: none;
+    border-radius: 50px;
+    padding: 12px;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+    .login-btn:hover {
+        background: linear-gradient(45deg, #038b9a, #5b4ac0);
+        box-shadow: 0 5px 20px rgba(113, 93, 237, 0.5); /* Brillo violeta */
+        transform: translateY(-2px);
+        color: #ffffff;
+    }
+
+/* Link de olvidar contraseña */
+.forgot-link {
+    font-size: 13px;
+    color: #00e5ff !important;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+    .forgot-link:hover {
+        color: #e866ff !important; /* Cambia a magenta al pasar el mouse */
+        text-shadow: 0 0 10px rgba(232, 102, 255, 0.6);
+        text-decoration: none;
+    }
+
+/* Animación de flotación para el logo */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}

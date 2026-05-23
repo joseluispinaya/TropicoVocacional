@@ -74,16 +74,16 @@
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
-                                    <img src="assets/images/users/avatar-1.jpg" alt="user-img" id="imgUsuarioMe" class="rounded-circle">
+                                    <img src="assets/images/users/avatar-1.jpg" alt="user-img" id="imgUsuarioMe" class="rounded-circle imgAdminVo">
                                     <span class="profile-username">
-                                        <strong id="nombreusuariome">Jose Luis</strong>
+                                        <strong class="texApellidosAdm">J</strong>
                                         <br />
-                                        <small id="rolusuariome">Developer</small>
+                                        <small id="lblDatosAd">D</small>
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="dropdown-divider"></li>
-                                    <li><a href="javascript:void(0)" class="dropdown-item"> Salir</a></li>
+                                    <li><a href="javascript:void(0)" id="salirsis" class="dropdown-item"> Salir</a></li>
                                     <!-- <li><a id="close" class="dropdown-item" style="cursor: pointer;">Salir</a></li> -->
                                 </ul>
                             </li>
@@ -101,11 +101,11 @@
 
                     <div class="user-details">
                         <div class="text-center">
-                            <img src="assets/images/users/avatar-1.jpg" alt="" id="imageUserMe" class="rounded-circle">
+                            <img src="assets/images/users/avatar-1.jpg" alt="" id="imageUserMe" class="rounded-circle imgAdminVo">
                         </div>
                         <div class="user-info">
                             <div class="dropdown">
-                                <a href="#" class="dropdown-toggle" id="rolnomme" data-toggle="dropdown" aria-expanded="false">Usuario Logeado</a>
+                                <a href="#" class="dropdown-toggle texApellidosAdm" id="rolnomme" data-toggle="dropdown" aria-expanded="false">Usuario</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="javascript:void(0)" class="dropdown-item">Perfil</a></li>
                                     <li><a href="javascript:void(0)" class="dropdown-item"><span class="badge badge-success float-right">5</span> Ajustes </a></li>

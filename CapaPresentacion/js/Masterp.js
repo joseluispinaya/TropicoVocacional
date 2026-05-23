@@ -106,4 +106,42 @@ function MostrarToastFijo(mensaje, titulo) {
     });
 }
 
+$(document).ready(function () {
+    const usuarioAdmin = sessionStorage.getItem('usuaGen');
+
+    if (!usuarioAdmin) {
+        window.location.replace('Login.aspx');
+        return;
+    }
+
+    try {
+        const usua = JSON.parse(usuarioAdmin);
+        // mostrar la imagen y nombre del usuairo 
+        $(".imgAdminVo").attr("src", usua.ImagenUser || "images/sinimagen.png");
+
+        $(".texApellidosAdm").text(usua.Apellidos);
+        $("#lblDatosAd").text(usua.Cargo);
+    } catch (error) {
+        console.error("Error leyendo sesión", error);
+        sessionStorage.clear();
+        window.location.replace('Login.aspx');
+    }
+});
+
+$('#salirsis').on('click', function (e) {
+    e.preventDefault();
+
+    MostrarConfirmacion("¿Cerrar Sesión?", "Saldrás del sistema", "Sí, salir", function () {
+        // Aquí pones tu llamada AJAX o lógica de eliminación
+        EjecutarCierreSesion();
+        //MostrarAlerta("¡Eliminado!", "El archivo ha sido borrado.", "success");
+    });
+
+});
+
+function EjecutarCierreSesion() {
+    sessionStorage.clear();
+    window.location.replace('Login.aspx');
+}
+
 // fin codigo

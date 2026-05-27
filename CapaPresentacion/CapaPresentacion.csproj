@@ -431,6 +431,7 @@
     <Content Include="assets\pluginzero\sweetalert\sweetalert.js" />
     <Content Include="assets\pluginzero\toastr\toastr.min.css" />
     <Content Include="assets\pluginzero\toastr\toastr.min.js" />
+    <Content Include="Configuraciones.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="ImagenesEst\sinfotoo.png" />
@@ -443,13 +444,17 @@
     <Content Include="images\membrete.png" />
     <Content Include="images\sinimagen.png" />
     <Content Include="Inicio.aspx" />
+    <Content Include="js\Configuraciones.js" />
     <Content Include="js\Estudiantes.js" />
+    <Content Include="js\Inicio.js" />
+    <Content Include="js\ListaEstudiantes.js" />
     <Content Include="js\Login.js" />
     <Content Include="js\Masterp.js" />
     <Content Include="js\PageCuestionario.js" />
     <Content Include="js\PageDirectores.js" />
     <Content Include="js\PagePregunta.js" />
     <Content Include="js\UnidsEducativas.js" />
+    <Content Include="ListaEstudiantes.aspx" />
     <Content Include="Login.aspx" />
     <Content Include="PageCuestionario.aspx" />
     <Content Include="PageDirectores.aspx" />
@@ -463,6 +468,13 @@
     <Compile Include="Api\HistorialesController.cs" />
     <Compile Include="Api\PreguntasController.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Configuraciones.aspx.cs">
+      <DependentUpon>Configuraciones.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Configuraciones.aspx.designer.cs">
+      <DependentUpon>Configuraciones.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -480,6 +492,13 @@
     </Compile>
     <Compile Include="Inicio.aspx.designer.cs">
       <DependentUpon>Inicio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ListaEstudiantes.aspx.cs">
+      <DependentUpon>ListaEstudiantes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ListaEstudiantes.aspx.designer.cs">
+      <DependentUpon>ListaEstudiantes.aspx</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

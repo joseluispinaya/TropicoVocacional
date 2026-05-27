@@ -39,6 +39,10 @@ namespace CapaNegocio
             return DPregunta.GetInstance().ObtenerPreguntasAleatorias(cantidad);
         }
 
+        public Respuesta<int> GuardarOrEditCarreras(ECarrera oModel)
+        {
+            return DPregunta.GetInstance().GuardarOrEditCarreras(oModel);
+        }
         public Respuesta<List<ECarrera>> ListaCarreras()
         {
             return DPregunta.GetInstance().ListaCarreras();

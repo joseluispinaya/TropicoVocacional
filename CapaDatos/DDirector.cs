@@ -206,5 +206,60 @@ namespace CapaDatos
             }
         }
 
+        public Respuesta<EDirector> LoginDirectores(string Correo)
+        {
+            try
+            {
+                EDirector obj = null;
+
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand comando = new SqlCommand("usp_LoginDirectores", con))
+                    {
+                        comando.CommandType = CommandType.StoredProcedure;
+                        comando.Parameters.AddWithValue("@Correo", Correo);
+
+                        con.Open();
+                        using (SqlDataReader dr = comando.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                obj = new EDirector
+                                {
+                                    IdDirector = Convert.ToInt32(dr["IdDirector"]),
+                                    IdUnidadEducativa = Convert.ToInt32(dr["IdUnidadEducativa"]),
+                                    Nombres = dr["Nombres"].ToString(),
+                                    Apellidos = dr["Apellidos"].ToString(),
+                                    NroCi = dr["NroCi"].ToString(),
+                                    Celular = dr["Celular"].ToString(),
+                                    Correo = dr["Correo"].ToString(),
+                                    ClaveHash = dr["ClaveHash"].ToString(),
+                                    Photo = dr["Photo"].ToString(),
+                                    Estado = Convert.ToBoolean(dr["Estado"]),
+                                    NombreUnidadEducativa = dr["NombreUndEd"].ToString()
+                                };
+                            }
+                        }
+                    }
+                }
+
+                return new Respuesta<EDirector>
+                {
+                    Estado = obj != null,
+                    Data = obj,
+                    Mensaje = obj != null ? "Director encontrado" : "Credenciales incorrectas"
+                };
+            }
+            catch (Exception)
+            {
+                return new Respuesta<EDirector>
+                {
+                    Estado = false,
+                    Mensaje = "Error servidor",
+                    Data = null
+                };
+            }
+        }
+
     }
 }

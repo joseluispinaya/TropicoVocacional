@@ -14,14 +14,6 @@
     <link rel="shortcut icon" href="assets/images/favicon.ico">
     <link href="assets/plugins/bootstrap-sweetalert/sweet-alert.css" rel="stylesheet" type="text/css"/>
     <link href="assets/pluginzero/toastr/toastr.min.css" rel="stylesheet" />
-    <!-- DataTables -->
-    <%--<link href="assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />--%>
-    <!-- <link href="assets/pluginzero/select2/select2.min.css" rel="stylesheet" /> -->
 
     
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -74,7 +66,7 @@
 
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle profile waves-effect waves-light" data-toggle="dropdown" aria-expanded="true">
-                                    <img src="assets/images/users/avatar-1.jpg" alt="user-img" id="imgUsuarioMe" class="rounded-circle imgAdminVo">
+                                    <img src="assets/images/users/avatar-1.jpg" alt="user-img" class="rounded-circle imgAdminVo">
                                     <span class="profile-username">
                                         <strong class="texApellidosAdm">J</strong>
                                         <br />
@@ -101,11 +93,11 @@
 
                     <div class="user-details">
                         <div class="text-center">
-                            <img src="assets/images/users/avatar-1.jpg" alt="" id="imageUserMe" class="rounded-circle imgAdminVo">
+                            <img src="assets/images/users/avatar-1.jpg" alt="" class="rounded-circle imgAdminVo">
                         </div>
                         <div class="user-info">
                             <div class="dropdown">
-                                <a href="#" class="dropdown-toggle texApellidosAdm" id="rolnomme" data-toggle="dropdown" aria-expanded="false">Usuario</a>
+                                <a href="#" class="dropdown-toggle" id="rolnomme" data-toggle="dropdown" aria-expanded="false">Usuario</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="javascript:void(0)" class="dropdown-item">Perfil</a></li>
                                     <li><a href="javascript:void(0)" class="dropdown-item"><span class="badge badge-success float-right">5</span> Ajustes </a></li>
@@ -151,7 +143,6 @@
                                 <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-file-pdf"></i><span> Reportes </span><span class="float-right"><i class="mdi mdi-plus"></i></span></a>
                                 <ul class="list-unstyled">
                                     <li><a href="PageEstudiantes.aspx">Estudiantes</a></li>
-                                    <%--<li><a href="javascript:void(0)">Directores</a></li>--%>
                                 </ul>
                             </li>
 
@@ -189,7 +180,7 @@
                 </div>
 
                 <footer class="footer">
-                    © 2026 Zero - All Rights Reserved.
+                    © 2026 EMI - Todos los derechos reservados.
                 </footer>
 
             </div>
@@ -216,27 +207,6 @@
         <script src="assets/pluginzero/toastr/toastr.min.js"></script>
         <script src="assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
         <script src="assets/plugins/loadingoverlay/loadingoverlay.js"></script>
-
-        <!-- Required datatable js-->
-        <%--<script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
-
-        <script src="assets/plugins/datatables/dataTables.buttons.min.js"></script>
-        <script src="assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
-
-        <script src="assets/plugins/datatables/jszip.min.js"></script>
-        <script src="assets/plugins/datatables/pdfmake.min.js"></script>
-        <script src="assets/plugins/datatables/vfs_fonts.js"></script>
-        <script src="assets/plugins/datatables/buttons.html5.min.js"></script>
-        <script src="assets/plugins/datatables/buttons.print.min.js"></script>
-        <script src="assets/plugins/datatables/dataTables.fixedHeader.min.js"></script>
-        <script src="assets/plugins/datatables/dataTables.keyTable.min.js"></script>
-        <script src="assets/plugins/datatables/dataTables.scroller.min.js"></script>
-
-        
-        <script src="assets/plugins/datatables/dataTables.responsive.min.js"></script>
-        <script src="assets/plugins/datatables/responsive.bootstrap4.min.js"></script>--%>
-        <!-- <script src="assets/pluginzero/select2/select2.min.js"></script> -->
 
         <!-- Datatable init js -->
         <!-- <script src="assets/jquery-ui-1.12.1/jquery-ui.js"></script> -->

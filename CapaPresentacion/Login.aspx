@@ -40,7 +40,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text login-icon-box"><i class="fas fa-envelope"></i></span>
                                         </div>
-                                        <input type="email" id="txtCorreo" class="form-control login-input" placeholder="ejemplo@correo.com" autocomplete="off" value="admindev@yopmail.com">
+                                        <input type="email" id="txtCorreo" class="form-control login-input" placeholder="ejemplo@correo.com" autocomplete="off" value="miguelinpp@yopmail.com">
                                     </div>
                                 </div>
 
@@ -50,7 +50,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text login-icon-box"><i class="fas fa-lock"></i></span>
                                         </div>
-                                        <input type="password" id="txtClave" class="form-control login-input" placeholder="********" value="123456789">
+                                        <input type="password" id="txtClave" class="form-control login-input" placeholder="********" value="21222324">
                                     </div>
                                 </div>
 
@@ -58,10 +58,10 @@
                                     INGRESAR <i class="fas fa-sign-in-alt ml-2"></i>
                                 </button>
 
-                                <div class="text-center mt-4">
+                                <%--<div class="text-center mt-4">
                                     <a href="#" data-toggle="modal" data-target="#mdForgotPassword" class="forgot-link">¿Olvidó su contraseña?
                                     </a>
-                                </div>
+                                </div>--%>
                             </div>
 
                         </div>

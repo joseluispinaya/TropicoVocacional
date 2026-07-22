@@ -37,5 +37,50 @@ namespace CapaNegocio
         {
             return DDirector.GetInstance().ObtenerDirectorPorId(idDirector);
         }
+
+        public Respuesta<EDirector> LoginDirectores(string Correo)
+        {
+            return DDirector.GetInstance().LoginDirectores(Correo);
+        }
+
+        public Respuesta<EDirector> LoginSuperAdmin(string Correo)
+        {
+            var usuarioPrueba = "admindev@yopmail.com";
+
+            if (usuarioPrueba.ToLower() != Correo.Trim().ToLower())
+            {
+                return new Respuesta<EDirector>
+                {
+                    Estado = false,
+                    Data = null,
+                    Mensaje = "Usuario o Contraseña incorrectos."
+                };
+            }
+
+
+            EDirector obj = new EDirector
+            {
+                IdDirector = 1019,
+                IdUnidadEducativa = 0,
+                Nombres = "Juan Carlos",
+                Apellidos = "Luna Paz",
+                NroCi = "32547854",
+                Celular = "73999748",
+                Correo = "admindev@yopmail.com",
+                ClaveHash = "123456789",
+                Photo = "/images/logodefault.png",
+                Estado = true,
+                NombreUnidadEducativa = "Administrador"
+            };
+
+            return new Respuesta<EDirector>
+            {
+                Estado = true,
+                Data = obj,
+                Mensaje = "Bienvenido al sistema"
+            };
+
+        }
+
     }
 }

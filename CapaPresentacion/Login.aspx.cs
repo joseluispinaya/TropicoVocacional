@@ -69,5 +69,123 @@ namespace CapaPresentacion
             }
         }
 
+        [WebMethod(EnableSession = true)]
+        public static Respuesta<EDirector> InicioSesion(string Correo, string Clave)
+        {
+            Respuesta<EDirector> response = new Respuesta<EDirector>();
+
+            try
+            {
+                // 1. OrdinalIgnoreCase soluciona el problema de mayúsculas/minúsculas
+                bool esAdmin = string.Equals(Correo.Trim(), "admindev@yopmail.com", StringComparison.OrdinalIgnoreCase);
+
+                if (esAdmin)
+                {
+                    // sesion como super admin
+                    response = LoginSuperAdmin(Correo, Clave);
+                }
+                else
+                {
+                    // sesion como director
+                    response = LoginDirectores(Correo, Clave);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.Estado = false;
+                response.Mensaje = "Ocurrió un error: " + ex.Message;
+            }
+
+            return response;
+        }
+
+        private static Respuesta<EDirector> LoginDirectores(string correo, string clave)
+        {
+            try
+            {
+                var resp = NDirector.GetInstance().LoginDirectores(correo);
+
+                if (!resp.Estado || resp.Data == null)
+                {
+                    return new Respuesta<EDirector> { Estado = false, Mensaje = resp.Mensaje };
+                }
+
+                var objUser = resp.Data;
+
+                // Validar Estado
+                if (!objUser.Estado)
+                {
+                    return new Respuesta<EDirector> { Estado = false, Mensaje = "Su cuenta se encuentra inactiva." };
+                }
+
+                // Verificamos la contraseña (BCrypt)
+                bool passCorrecta = Utilidadesj.GetInstance().Verify(clave, objUser.ClaveHash);
+
+                if (!passCorrecta)
+                {
+                    return new Respuesta<EDirector> { Estado = false, Mensaje = "Correo o Contraseña incorrectos." };
+                }
+
+                // Seguridad: Limpiamos la clave antes de guardarla en sesión
+                objUser.ClaveHash = "";
+
+                // Guardamos en sesión el objeto limpio
+                HttpContext.Current.Session["UsuarioLogueado"] = objUser;
+                HttpContext.Current.Session["TipoUsuario"] = "UsuarioDirector";
+
+                return new Respuesta<EDirector>
+                {
+                    Estado = true,
+                    Data = objUser,
+                    Valor = "MenuDocentes/PanelInicio.aspx",
+                    Mensaje = "Bienvenido al sistema"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<EDirector> { Estado = false, Mensaje = "Ocurrió un error: " + ex.Message };
+            }
+        }
+
+        private static Respuesta<EDirector> LoginSuperAdmin(string correo, string clave)
+        {
+            try
+            {
+                var resp = NDirector.GetInstance().LoginSuperAdmin(correo);
+
+                if (!resp.Estado || resp.Data == null)
+                {
+                    return new Respuesta<EDirector> { Estado = false, Mensaje = resp.Mensaje };
+                }
+
+                var objUser = resp.Data;
+
+                if (clave != objUser.ClaveHash)
+                {
+                    return new Respuesta<EDirector> { Estado = false, Mensaje = "Correo o Contraseña incorrectos." };
+                }
+
+                // Seguridad: Limpiamos la clave antes de guardarla en sesión 
+                objUser.ClaveHash = "";
+
+                // Guardamos en sesión el objeto limpio
+                HttpContext.Current.Session["UsuarioLogueado"] = objUser;
+                HttpContext.Current.Session["TipoUsuario"] = "SuperAdmin";
+
+                return new Respuesta<EDirector>
+                {
+                    Estado = true,
+                    Data = objUser,
+                    Valor = "Inicio.aspx",
+                    Mensaje = "Bienvenido al sistema"
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<EDirector> { Estado = false, Mensaje = "Ocurrió un error: " + ex.Message };
+            }
+        }
+
     }
 }

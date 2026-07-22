@@ -12,6 +12,7 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="body" runat="server">
     <div class="row">
+        
         <div class="col-lg-4">
             <div class="card text-center">
                 <div class="card-body p-t-30 p-b-30">
@@ -48,7 +49,7 @@
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="m-t-0 m-b-30">Directorio de Carreras Habilitadas</h4>
+                    <h4 class="m-t-0 m-b-30">Directorio de Carreras</h4>
 
                     <div class="table-responsive">
                         <table id="tbDatas" class="table table-hover table-sm m-0">

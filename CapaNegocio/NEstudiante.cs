@@ -49,5 +49,10 @@ namespace CapaNegocio
         {
             return DEstudiante.GetInstance().ActualizarClave(IdEstudiante, NuevaClave);
         }
+
+        public Respuesta<List<EEstudiante>> ObtenerEstudiantesUnidEd(int idUnidadEducativa, string busqueda)
+        {
+            return DEstudiante.GetInstance().ObtenerEstudiantesUnidEd(idUnidadEducativa, busqueda);
+        }
     }
 }

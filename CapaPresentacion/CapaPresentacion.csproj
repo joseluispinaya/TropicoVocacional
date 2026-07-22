@@ -456,6 +456,13 @@
     <Content Include="js\UnidsEducativas.js" />
     <Content Include="ListaEstudiantes.aspx" />
     <Content Include="Login.aspx" />
+    <Content Include="MenuDocentes\jsDirector\MasterpDire.js" />
+    <Content Include="MenuDocentes\jsDirector\PanelEstudiantes.js" />
+    <Content Include="MenuDocentes\jsDirector\PanelInicio.js" />
+    <Content Include="MenuDocentes\jsDirector\PanelListaEstudiantes.js" />
+    <Content Include="MenuDocentes\PanelEstudiantes.aspx" />
+    <Content Include="MenuDocentes\PanelInicio.aspx" />
+    <Content Include="MenuDocentes\PanelListaEstudiantes.aspx" />
     <Content Include="PageCuestionario.aspx" />
     <Content Include="PageDirectores.aspx" />
     <Content Include="PageEstudiantes.aspx" />
@@ -507,6 +514,34 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MenuDocentes\MasterDocentes.Master.cs">
+      <DependentUpon>MasterDocentes.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MenuDocentes\MasterDocentes.Master.designer.cs">
+      <DependentUpon>MasterDocentes.Master</DependentUpon>
+    </Compile>
+    <Compile Include="MenuDocentes\PanelEstudiantes.aspx.cs">
+      <DependentUpon>PanelEstudiantes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MenuDocentes\PanelEstudiantes.aspx.designer.cs">
+      <DependentUpon>PanelEstudiantes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuDocentes\PanelInicio.aspx.cs">
+      <DependentUpon>PanelInicio.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MenuDocentes\PanelInicio.aspx.designer.cs">
+      <DependentUpon>PanelInicio.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuDocentes\PanelListaEstudiantes.aspx.cs">
+      <DependentUpon>PanelListaEstudiantes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MenuDocentes\PanelListaEstudiantes.aspx.designer.cs">
+      <DependentUpon>PanelListaEstudiantes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PageCuestionario.aspx.cs">
       <DependentUpon>PageCuestionario.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -550,6 +585,7 @@
       <DependentUpon>PageUndsEducativas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SesionHelper.cs" />
     <Compile Include="Utilidadesj.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -646,6 +682,7 @@
     <Content Include="assets\scss\_menu.scss" />
     <Content Include="assets\scss\_pages.scss" />
     <Content Include="assets\scss\_responsive.scss" />
+    <Content Include="MenuDocentes\MasterDocentes.Master" />
     <None Include="packages.config" />
     <Content Include="PageHome.Master" />
     <None Include="Web.Debug.config">

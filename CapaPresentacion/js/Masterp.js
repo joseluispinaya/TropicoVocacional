@@ -117,10 +117,11 @@ $(document).ready(function () {
     try {
         const usua = JSON.parse(usuarioAdmin);
         // mostrar la imagen y nombre del usuairo 
-        $(".imgAdminVo").attr("src", usua.ImagenUser || "images/sinimagen.png");
+        $(".imgAdminVo").attr("src", usua.Photo || "images/sinimagen.png");
 
         $(".texApellidosAdm").text(usua.Apellidos);
-        $("#lblDatosAd").text(usua.Cargo);
+        $("#lblDatosAd").text(usua.Nombres);
+        $("#rolnomme").text(usua.NombreUnidadEducativa);
     } catch (error) {
         console.error("Error leyendo sesión", error);
         sessionStorage.clear();
@@ -133,11 +134,29 @@ $('#salirsis').on('click', function (e) {
 
     MostrarConfirmacion("¿Cerrar Sesión?", "Saldrás del sistema", "Sí, salir", function () {
         // Aquí pones tu llamada AJAX o lógica de eliminación
-        EjecutarCierreSesion();
+        cerrarSesionSis();
         //MostrarAlerta("¡Eliminado!", "El archivo ha sido borrado.", "success");
     });
 
 });
+
+function cerrarSesionSis() {
+    $.ajax({
+        type: "POST",
+        url: "Inicio.aspx/CerrarSesion",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            sessionStorage.clear();
+            window.location.replace('Login.aspx');
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            sessionStorage.clear();
+            window.location.replace('Login.aspx');
+        }
+    });
+}
 
 function EjecutarCierreSesion() {
     sessionStorage.clear();

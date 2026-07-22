@@ -292,5 +292,44 @@ namespace CapaDatos
             }
         }
 
+        public Respuesta<List<EEstudiante>> ObtenerEstudiantesUnidEd(int idUnidadEducativa, string busqueda)
+        {
+            try
+            {
+                List<EEstudiante> rptLista = new List<EEstudiante>();
+
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand cmd = new SqlCommand("usp_FiltroEstudiantes", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@IdUnidadEducativa", idUnidadEducativa);
+                        cmd.Parameters.AddWithValue("@Busqueda", busqueda);
+
+                        con.Open();
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                rptLista.Add(new EEstudiante
+                                {
+                                    IdEstudiante = Convert.ToInt32(dr["IdEstudiante"]),
+                                    NroCi = dr["NroCi"].ToString(),
+                                    Nombres = dr["Nombres"].ToString(),
+                                    Apellidos = dr["Apellidos"].ToString(),
+                                    Photo = dr["Photo"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+                return new Respuesta<List<EEstudiante>> { Estado = true, Data = rptLista, Mensaje = "Lista obtenidos correctamente" };
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<List<EEstudiante>> { Estado = false, Mensaje = "Error BD: " + ex.Message };
+            }
+        }
+
     }
 }

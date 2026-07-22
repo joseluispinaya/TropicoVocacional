@@ -27,10 +27,12 @@
                             <select class="form-control form-control-sm form-new" id="cboUnidadEdGe">
                             </select>
                         </div>
-
-                        <div class="form-group col-sm-4">
-                            <button type="button" id="btnNuevo" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle mr-2"></i>Nuevo Registro</button>
+                        <div class="col-sm-4">
                         </div>
+
+                        <%--<div class="form-group col-sm-4">
+                            <button type="button" id="btnNuevo" class="btn btn-primary btn-sm"><i class="fas fa-plus-circle mr-2"></i>Nuevo Registro</button>
+                        </div>--%>
                     </div>
 
                     <div class="row">

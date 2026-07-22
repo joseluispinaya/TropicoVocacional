@@ -60,6 +60,10 @@ $("#cboUnidadEdGe").on("change", function () {
         $("#tbData").DataTable().clear().draw();
     }
 
+    if ($.fn.DataTable.isDataTable("#tbDataHist")) {
+        $("#tbDataHist").DataTable().clear().draw();
+    }
+
     if (idUnidadEducativa) {
         listaEstudiantes(idUnidadEducativa);
     }
@@ -143,11 +147,10 @@ function listaEstudiantes(idUnidadEducativa) {
             //    }
             //},
             {
-                "defaultContent": '<button class="btn btn-primary btn-informa btn-sm mr-2"><i class="fas fa-id-badge mr-2"></i>Test</button>' +
-                    '<button class="btn btn-info btn-detalle btn-sm"><i class="fas fa-address-book mr-2"></i>Info</button>',
+                "defaultContent": '<button class="btn btn-primary btn-informa btn-sm"><i class="fas fa-id-badge mr-2"></i>Ver Test</button>',
                 "orderable": false,
                 "searchable": false,
-                "width": "150px",
+                "width": "100px",
                 "className": "text-center align-middle"
             }
         ],

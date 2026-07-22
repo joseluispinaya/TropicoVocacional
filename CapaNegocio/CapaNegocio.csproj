@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NCuestionario.cs" />
+    <Compile Include="NDashboard.cs" />
     <Compile Include="NDirector.cs" />
     <Compile Include="NEstudiante.cs" />
     <Compile Include="NPregunta.cs" />

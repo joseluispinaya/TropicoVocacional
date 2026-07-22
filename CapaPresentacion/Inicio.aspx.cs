@@ -1,4 +1,6 @@
-﻿using CapaEntidad.Responses;
+﻿using CapaEntidad.Entidades;
+using CapaEntidad.Responses;
+using CapaNegocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,12 @@ namespace CapaPresentacion
         protected void Page_Load(object sender, EventArgs e)
         {
 
+        }
+
+        [WebMethod]
+        public static Respuesta<EDashboard> ObtenerEstadisticasDashboardAdmin()
+        {
+            return NDashboard.GetInstance().ObtenerEstadisticasDashboardAdmin();
         }
 
         [WebMethod(EnableSession = true)]

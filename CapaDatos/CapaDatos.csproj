@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ConexionBD.cs" />
     <Compile Include="DCuestionario.cs" />
+    <Compile Include="DDashboard.cs" />
     <Compile Include="DDirector.cs" />
     <Compile Include="DEstudiante.cs" />
     <Compile Include="DPregunta.cs" />

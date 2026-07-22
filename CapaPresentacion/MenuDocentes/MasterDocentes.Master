@@ -131,9 +131,9 @@
                                 </ul>
                             </li>
 
-                            <li>
+                            <%--<li>
                                 <a href="#" class="waves-effect"><i class="mdi mdi-settings"></i><span>Perfil</span></a>
-                            </li>
+                            </li>--%>
                             
                         </ul>
                     </div>

@@ -458,9 +458,11 @@
     <Content Include="Login.aspx" />
     <Content Include="MenuDocentes\jsDirector\MasterpDire.js" />
     <Content Include="MenuDocentes\jsDirector\PanelEstudiantes.js" />
+    <Content Include="MenuDocentes\jsDirector\PanelInformes.js" />
     <Content Include="MenuDocentes\jsDirector\PanelInicio.js" />
     <Content Include="MenuDocentes\jsDirector\PanelListaEstudiantes.js" />
     <Content Include="MenuDocentes\PanelEstudiantes.aspx" />
+    <Content Include="MenuDocentes\PanelInformes.aspx" />
     <Content Include="MenuDocentes\PanelInicio.aspx" />
     <Content Include="MenuDocentes\PanelListaEstudiantes.aspx" />
     <Content Include="PageCuestionario.aspx" />
@@ -527,6 +529,13 @@
     </Compile>
     <Compile Include="MenuDocentes\PanelEstudiantes.aspx.designer.cs">
       <DependentUpon>PanelEstudiantes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MenuDocentes\PanelInformes.aspx.cs">
+      <DependentUpon>PanelInformes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MenuDocentes\PanelInformes.aspx.designer.cs">
+      <DependentUpon>PanelInformes.aspx</DependentUpon>
     </Compile>
     <Compile Include="MenuDocentes\PanelInicio.aspx.cs">
       <DependentUpon>PanelInicio.aspx</DependentUpon>

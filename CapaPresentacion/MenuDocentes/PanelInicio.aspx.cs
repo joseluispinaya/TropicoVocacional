@@ -1,4 +1,6 @@
-﻿using CapaEntidad.Responses;
+﻿using CapaEntidad.Entidades;
+using CapaEntidad.Responses;
+using CapaNegocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +17,25 @@ namespace CapaPresentacion.MenuDocentes
         {
 
         }
+
+        [WebMethod(EnableSession = true)]
+        public static Respuesta<EDashboard> ObtenerEstadisticasDashboard()
+        {
+            var usuario = SesionHelper.UsuarioLogueado;
+
+            if (usuario == null)
+                return new Respuesta<EDashboard> { Estado = false, Mensaje = "Sesión expirada" };
+
+            try
+            {
+                return NDashboard.GetInstance().ObtenerEstadisticasDashboard(usuario.IdUnidadEducativa);
+            }
+            catch (Exception)
+            {
+                return new Respuesta<EDashboard> { Estado = false, Mensaje = "Ocurrió un error interno en el servidor. Intente nuevamente" };
+            }
+        }
+
 
         [WebMethod(EnableSession = true)]
         public static Respuesta<bool> CerrarSesion()

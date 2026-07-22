@@ -86,29 +86,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <%--<div class="col-md-6 mb-3">
-                            <div class="bg-light p-2 rounded border shadow-sm">
-                                <h6 class="font-weight-bold text-dark border-bottom pb-2 mb-3">
-                                    <i class="fas fa-clock text-info mr-2"></i>Historial detallado
-                                </h6>
-
-                                <div id="seccionDetalle" style="display: none;">
-                                    <div class="table-responsive">
-                                        <table class="table table-sm table-striped table-bordered" id="tbDetalleHistor" width="100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>Carrera</th>
-                                                    <th>Justificacion</th>
-                                                    <th>Puntaje</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>--%>
                     </div>
 
                 </div>
@@ -142,7 +119,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal"><i class="fas fa-window-close mr-2"></i>Cerrar</button>
-                    <button id="btnReport" type="button" class="btn btn-sm btn-primary"><i class="fas fa-file-pdf mr-2"></i>Generar Reporte</button>
+                    <%--<button id="btnReport" type="button" class="btn btn-sm btn-primary"><i class="fas fa-file-pdf mr-2"></i>Generar Reporte</button>--%>
                 </div>
             </div>
         </div>

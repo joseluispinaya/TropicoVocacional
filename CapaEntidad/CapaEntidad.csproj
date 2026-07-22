@@ -54,6 +54,7 @@
     <Compile Include="DTOs\SolicitudTestDTO.cs" />
     <Compile Include="Entidades\ECarrera.cs" />
     <Compile Include="Entidades\ECuestionario.cs" />
+    <Compile Include="Entidades\EDashboard.cs" />
     <Compile Include="Entidades\EDirector.cs" />
     <Compile Include="Entidades\EEstudiante.cs" />
     <Compile Include="Entidades\EPregunta.cs" />

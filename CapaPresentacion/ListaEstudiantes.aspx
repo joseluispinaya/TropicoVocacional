@@ -1,11 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PageHome.Master" AutoEventWireup="true" CodeBehind="ListaEstudiantes.aspx.cs" Inherits="CapaPresentacion.ListaEstudiantes" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/plugins/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-    <link href="assets/plugins/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="titulo" runat="server">
     Estudiantes por Unidad Educativa
@@ -31,7 +28,7 @@
                     <h4 class="m-t-0 m-b-20 header-title"><i class="fa fa-file text-success m-r-10"></i>Acciones Disponibles</h4>
 
                     <p class="text-muted font-13 m-b-20">
-                        Puedes exportar el reporte consolidado de los tests vocacionales y las recomendaciones de la IA pertenecientes a la unidad educativa seleccionada.
+                        Puedes exportar el reporte consolidado de los estudiantes pertenecientes a la unidad educativa seleccionada.
                     </p>
 
                     <button id="btnGenerarReporte" type="button" class="btn btn-success btn-md waves-effect waves-light w-100" disabled>
@@ -77,20 +74,11 @@
     <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <script src="assets/plugins/datatables/dataTables.buttons.min.js"></script>
-    <script src="assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
-
-    <script src="assets/plugins/datatables/jszip.min.js"></script>
-    <script src="assets/plugins/datatables/pdfmake.min.js"></script>
-    <script src="assets/plugins/datatables/vfs_fonts.js"></script>
-    <script src="assets/plugins/datatables/buttons.html5.min.js"></script>
-    <script src="assets/plugins/datatables/buttons.print.min.js"></script>
-    <script src="assets/plugins/datatables/dataTables.fixedHeader.min.js"></script>
-    <script src="assets/plugins/datatables/dataTables.keyTable.min.js"></script>
-    <script src="assets/plugins/datatables/dataTables.scroller.min.js"></script>
-
     <script src="assets/plugins/datatables/dataTables.responsive.min.js"></script>
     <script src="assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
     <script src="js/ListaEstudiantes.js?v=<%= DateTime.Now.ToString("yyyyMMddHHmmss") %>" type="text/javascript"></script>
 </asp:Content>

@@ -2,6 +2,8 @@
 let tablaData;
 let tablaDataPregunta;
 let idEditar = 0;
+const { jsPDF } = window.jspdf;
+let listaPreguntas = [];
 
 $(document).ready(function () {
 
@@ -83,8 +85,6 @@ $('#tbDatas tbody').on('click', '.btn-detalle', function () {
     detalleCuestionario(data.IdCuestionario);
     $("#myModalLabeldett").text(textoSms);
     $("#mdDetalles").modal("show");
-    //const textoSms = `Detalle de: ${data.Titulo}.`;
-    //swal("Mensaje", textoSms, "info")
 
 });
 
@@ -112,6 +112,7 @@ function detalleCuestionario(idCuestionario) {
             },
             "dataSrc": function (json) {
                 if (json.d.Estado) {
+                    listaPreguntas = json.d.Data || [];
                     return json.d.Data;
                 } else {
                     return [];
@@ -202,4 +203,139 @@ $("#btnGuardarCambios").on("click", function () {
     });
 
 })
+
+function GenerarReporte() {
+    // 1. Configuración Inicial (Portrait = Vertical)
+    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+    const pageWidth = doc.internal.pageSize.width;
+    const pageHeight = doc.internal.pageSize.height;
+    const fechaActual = new Date().toLocaleDateString("es-BO");
+
+    // Limpiamos el texto extra que viene del modal para tener solo el nombre real
+    const textoModal = $("#myModalLabeldett").text();
+    const tituloCuestionario = textoModal.replace("Detalle de: ", "").trim();
+
+    // ==========================================
+    // 2. ENCABEZADO Y LOGO
+    // ==========================================
+    var img = new Image();
+    img.src = "/images/membrete.png";
+    try {
+        // Respetando tus dimensiones exactas
+        doc.addImage(img, 'PNG', 15, 10, 55, 25);
+    } catch (e) {
+        console.warn("No se pudo cargar el logo, verifique la ruta.");
+    }
+
+    doc.setTextColor(0);
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("REPORTE DE CUESTIONARIO", pageWidth - 15, 20, { align: "right" });
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text("Sistema de Orientación Vocacional", pageWidth - 15, 26, { align: "right" });
+    doc.text(`Fecha de Emisión: ${fechaActual}`, pageWidth - 15, 31, { align: "right" });
+
+    // Línea separadora gris oscuro (más sutil que el negro puro)
+    doc.setDrawColor(150, 150, 150);
+    doc.setLineWidth(0.5);
+    doc.line(15, 40, pageWidth - 15, 40);
+
+    // ==========================================
+    // 3. DATOS DE LAS PREGUNTAS
+    // ==========================================
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.text("1. DATOS DEL CUESTIONARIO", 15, 50);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Título: ${tituloCuestionario}`, 15, 58);
+    doc.text(`Total de Preguntas: ${listaPreguntas.length}`, 15, 64);
+
+    // ==========================================
+    // 4. CONFIGURACIÓN DE LA TABLA
+    // ==========================================
+    const headers = [["#", "PREGUNTAS DISPONIBLES"]];
+    const data = listaPreguntas.map((item, index) => [
+        index + 1,
+        item.Texto
+    ]);
+
+    doc.autoTable({
+        startY: 72, // Bajamos un poco para dar espacio a los metadatos
+        head: headers,
+        body: data,
+        theme: 'grid',
+        styles: {
+            fontSize: 9,
+            cellPadding: 3,
+            valign: 'middle'
+        },
+        headStyles: {
+            fillColor: [52, 58, 64], // Gris oscuro (estilo Webadmin)
+            textColor: 255,
+            halign: 'center',
+            fontStyle: 'bold'
+        },
+        alternateRowStyles: {
+            fillColor: [245, 245, 245] // Efecto cebra suave
+        },
+        columnStyles: {
+            0: { cellWidth: 12, halign: 'center', fontStyle: 'bold' },
+            1: { cellWidth: 168 }
+        },
+        margin: { left: 15, right: 15 }
+    });
+
+    // ==========================================
+    // 5. TOTALES Y FIRMA
+    // ==========================================
+    let finalY = doc.lastAutoTable.finalY;
+
+    if (finalY + 40 > pageHeight) {
+        doc.addPage();
+        finalY = 20;
+    }
+
+    const firmaY = finalY + 30;
+    const lineLength = 70;
+    const xLineStart = (pageWidth - lineLength) / 2;
+    const xLineEnd = xLineStart + lineLength;
+
+    doc.setDrawColor(0, 0, 0); // Restaurar a negro para la firma
+    doc.setLineWidth(0.5);
+    doc.line(xLineStart, firmaY, xLineEnd, firmaY);
+
+    doc.setFontSize(10);
+    doc.text("Firma del Responsable", pageWidth / 2, firmaY + 5, { align: "center" });
+
+    // ==========================================
+    // 6. PIE DE PÁGINA
+    // ==========================================
+    const totalPages = doc.internal.getNumberOfPages();
+
+    for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150);
+        doc.text(`Generado por Sistema Vocacional IA - ${fechaActual}`, 15, pageHeight - 10);
+        doc.text(`Página ${i} de ${totalPages}`, pageWidth - 15, pageHeight - 10, { align: "right" });
+    }
+
+    // Guardado con nombre limpio para evitar errores de sistema de archivos
+    let nombreArchivoLimpio = tituloCuestionario.replace(/[^a-zA-Z0-9]/g, "_");
+    doc.save(`Cuestionario_${nombreArchivoLimpio}_${fechaActual.replace(/\//g, "")}.pdf`);
+}
+
+$("#btnReport").on("click", function () {
+    if (listaPreguntas.length < 1) {
+        swal("Mensaje", "No se puede generar reporte vacío, verifique que existan resultados.", "warning");
+        return;
+    }
+    GenerarReporte();
+});
+
 // fin

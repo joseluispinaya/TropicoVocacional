@@ -165,7 +165,7 @@ $('#tbDatas tbody').on('click', '.btn-editar', function () {
 
     $("#imgDirectReg").attr("src", data.Photo || "images/sinimagen.png");
     $("#txtFotoUr").val("");
-    $(".custom-file-label").text('Ningún archivo seleccionado');
+    $(".custom-file-label").text('Sin archivo...');
 
     $("#myModalLabel").text("Editar Registro");
     $("#mdData").modal("show");
@@ -179,9 +179,26 @@ $('#tbDatas tbody').on('click', '.btn-detalle', function () {
         fila = fila.prev();
     }
 
+    // Obtenemos los datos de la fila
     let data = tablaData.row(fila).data();
-    const textoSms = `Detalles del Director: ${data.Nombres}.`;
-    MostrarAlerta("¡Mensaje!", textoSms, "info");
+    let unidadEd = "🏫 " + data.NombreUnidadEducativa;
+
+    // Armamos el texto usando saltos de línea (\n) 
+    // Tu sweet-alert.min.js los convertirá en saltos de línea reales (<br>)
+    let textoDetalle =
+        "Nombre: " + data.FullName + "\n\n" +
+        "Nro Cel: " + data.Celular + "\n" +
+        "Correo: " + data.Correo + "\n\n" +
+        "U.E.: " + unidadEd + "\n" +
+        "-----------------------------------";
+
+    swal({
+        title: "Detalle del Director",
+        text: textoDetalle,
+        imageUrl: "images/infoswal.png",
+        confirmButtonText: "Cerrar",
+        confirmButtonColor: "#004F9F"
+    });
 
 });
 
@@ -200,7 +217,7 @@ $("#btnRegistro").on("click", function () {
 
     $('#imgDirectReg').attr('src', "images/sinimagen.png");
     $("#txtFotoUr").val("");
-    $(".custom-file-label").text('Ningún archivo seleccionado');
+    $(".custom-file-label").text('Sin archivo...');
 
     $("#myModalLabel").text("Nuevo Registro");
 
@@ -219,7 +236,8 @@ function mostrarImagenSeleccionada(input) {
     // Si NO se seleccionó archivo (ej: presionaron "Cancelar")
     if (!file) {
         $('#imgDirectReg').attr('src', "images/sinimagen.png");
-        $(input).next('.custom-file-label').text('Ningún archivo seleccionado');
+        $(input).next('.custom-file-label').text('Sin archivo...');
+        input.value = "";
         return;
     }
 
@@ -227,7 +245,7 @@ function mostrarImagenSeleccionada(input) {
     if (!esImagen(file)) {
         toastr.error("El archivo seleccionado no es una imagen válida.");
         $('#imgDirectReg').attr('src', "images/sinimagen.png");
-        $(input).next('.custom-file-label').text('Ningún archivo seleccionado');
+        $(input).next('.custom-file-label').text('Sin archivo...');
         input.value = ""; // Limpia el input de archivo
         return;
     }
@@ -243,6 +261,21 @@ function mostrarImagenSeleccionada(input) {
 $('#txtFotoUr').change(function () {
     mostrarImagenSeleccionada(this);
 });
+
+$('#txtFotoUr').on('cancel', function () {
+    if (idEditar > 0) {
+        this.value = ""; // Limpiamos el input por seguridad
+    } else {
+        // Modo Nuevo Registro: Resetea a sinimagen.png
+        resetearVistaFoto(this);
+    }
+});
+
+function resetearVistaFoto(input) {
+    $('#imgDirectReg').attr('src', "images/sinimagen.png");
+    $(input).next('.custom-file-label').text('Sin archivo...');
+    input.value = ""; // Limpia el input file real
+}
 
 function habilitarBoton() {
     $('#btnGuardarCambios').prop('disabled', false);

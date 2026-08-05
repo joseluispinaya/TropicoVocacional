@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Configuration;
+using System.Data.SqlClient;
 
 namespace CapaDatos
 {
@@ -19,14 +20,25 @@ namespace CapaDatos
         }
         #endregion
 
+        
+
         public SqlConnection ConexionDB()
         {
-            SqlConnection conexion = new SqlConnection
-            {
-                ConnectionString = "Data Source=.;Initial Catalog=TropVocacionalBD;Integrated Security=True"
-            };
+            // Lee la cadena directamente del web.config
+            string cadena = ConfigurationManager.ConnectionStrings["CadenaConexion"].ConnectionString;
+            SqlConnection conexion = new SqlConnection(cadena);
 
             return conexion;
         }
+
+        //public SqlConnection ConexionDB()
+        //{
+        //    SqlConnection conexion = new SqlConnection
+        //    {
+        //        ConnectionString = "Data Source=.;Initial Catalog=TropVocacionalBD;Integrated Security=True"
+        //    };
+
+        //    return conexion;
+        //}
     }
 }

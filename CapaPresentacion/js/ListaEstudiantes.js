@@ -1,5 +1,7 @@
 ﻿
 let tablaData;
+let listEstudRpt = [];
+const { jsPDF } = window.jspdf;
 
 $(document).ready(function () {
     cargarUndEduca();
@@ -104,6 +106,7 @@ function cargarEstudiantesPorColegio(idUnidadEducativa) {
                 if (json.d.Estado) {
                     let datos = json.d.Data;
                     $("#lblContadorEstudiantes").text(datos.length + " Alumnos");
+                    listEstudRpt = datos;
                     return datos;
                 } else {
                     $("#lblContadorEstudiantes").text("0 Alumnos");
@@ -161,11 +164,139 @@ function cargarEstudiantesPorColegio(idUnidadEducativa) {
 
 // Evento del botón de Reporte
 $("#btnGenerarReporte").on("click", function () {
-    var idColegio = $("#cboUnidadEducativa").val();
-    // Aquí ejecutas tu lógica de jsPDF o redirección para descargar el reporte
-    // Ejemplo: abrirReportePDF(idColegio);
-
-    MostrarAlerta("¡Mensaje!", "En construcción", "info");
+    //var idColegio = $("#cboUnidadEducativa").val();
+    if (listEstudRpt.length < 1) {
+        swal("Mensaje", "No se puede generar reporte vacío, verifique que existan resultados.", "warning");
+        return;
+    }
+    GenerarReporteEst();
 });
+
+function GenerarReporteEst() {
+    // 1. Configuración Inicial (Portrait = Vertical)
+    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+
+    const pageWidth = doc.internal.pageSize.width;
+    const pageHeight = doc.internal.pageSize.height;
+    const fechaActual = new Date().toLocaleDateString("es-BO");
+    const nombreUni = $("#cboUnidadEducativa option:selected").text().trim();
+
+    // ==========================================
+    // 2. ENCABEZADO Y LOGO
+    // ==========================================
+    var img = new Image();
+    img.src = "/images/membrete.png";
+    try {
+        // Respetando tus dimensiones exactas
+        doc.addImage(img, 'PNG', 15, 10, 55, 25);
+    } catch (e) {
+        console.warn("No se pudo cargar el logo, verifique la ruta.");
+    }
+
+    doc.setTextColor(0);
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("REPORTE DE ESTUDIANTES", pageWidth - 15, 20, { align: "right" });
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text("Sistema de Orientación Vocacional", pageWidth - 15, 26, { align: "right" });
+    doc.text(`Fecha de Emisión: ${fechaActual}`, pageWidth - 15, 31, { align: "right" });
+
+    // Línea separadora gris oscuro (más sutil que el negro puro)
+    doc.setDrawColor(150, 150, 150);
+    doc.setLineWidth(0.5);
+    doc.line(15, 40, pageWidth - 15, 40);
+
+    // ==========================================
+    // 3. DATOS DE LAS PREGUNTAS
+    // ==========================================
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.text("1. DETALLE DEL REPORTE", 15, 50);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text(`UND. EDUCATIVA: ${nombreUni}`, 15, 58);
+    doc.text(`Total de Estudiantes: ${listEstudRpt.length}`, 15, 64);
+
+    // ==========================================
+    // 4. CONFIGURACIÓN DE LA TABLA
+    // ==========================================
+    const headers = [["#", "Estudiantes", "Nro CI", "Correo"]];
+    const data = listEstudRpt.map((item, index) => [
+        index + 1,
+        item.FullName,
+        item.NroCi,
+        item.Correo
+    ]);
+
+    doc.autoTable({
+        startY: 72, // Bajamos un poco para dar espacio a los metadatos
+        head: headers,
+        body: data,
+        theme: 'grid',
+        styles: {
+            fontSize: 9,
+            cellPadding: 3,
+            valign: 'middle'
+        },
+        headStyles: {
+            fillColor: [52, 58, 64], // Gris oscuro (estilo Webadmin)
+            textColor: 255,
+            halign: 'center',
+            fontStyle: 'bold'
+        },
+        alternateRowStyles: {
+            fillColor: [245, 245, 245] // Efecto cebra suave
+        },
+        columnStyles: {
+            0: { cellWidth: 12, halign: 'center', fontStyle: 'bold' },
+            1: { cellWidth: 75 },                   // Estudiantes (75mm)
+            2: { cellWidth: 38, halign: 'center' }, // CI (40mm)
+            3: { cellWidth: 55, halign: 'center' } // Correo (55mm)
+        },
+        margin: { left: 15, right: 15 }
+    });
+
+    // ==========================================
+    // 5. TOTALES Y FIRMA
+    // ==========================================
+    let finalY = doc.lastAutoTable.finalY;
+
+    if (finalY + 40 > pageHeight) {
+        doc.addPage();
+        finalY = 20;
+    }
+
+    const firmaY = finalY + 30;
+    const lineLength = 70;
+    const xLineStart = (pageWidth - lineLength) / 2;
+    const xLineEnd = xLineStart + lineLength;
+
+    doc.setDrawColor(0, 0, 0); // Restaurar a negro para la firma
+    doc.setLineWidth(0.5);
+    doc.line(xLineStart, firmaY, xLineEnd, firmaY);
+
+    doc.setFontSize(10);
+    doc.text("Firma del Responsable", pageWidth / 2, firmaY + 5, { align: "center" });
+
+    // ==========================================
+    // 6. PIE DE PÁGINA
+    // ==========================================
+    const totalPages = doc.internal.getNumberOfPages();
+
+    for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150);
+        doc.text(`Generado por Sistema Vocacional IA - ${fechaActual}`, 15, pageHeight - 10);
+        doc.text(`Página ${i} de ${totalPages}`, pageWidth - 15, pageHeight - 10, { align: "right" });
+    }
+
+    // Guardado con nombre limpio para evitar errores de sistema de archivos
+    let nombreArchivoLimpio = nombreUni.replace(/[^a-zA-Z0-9]/g, "_");
+    doc.save(`Reporte_${nombreArchivoLimpio}_${fechaActual.replace(/\//g, "")}.pdf`);
+}
 
 // fin

@@ -125,6 +125,7 @@
   <ItemGroup>
     <Content Include="assets\css\bootstrap.min.css" />
     <Content Include="assets\css\elements.css" />
+    <Content Include="assets\css\fileimputnew.css" />
     <Content Include="assets\css\icons.css" />
     <Content Include="assets\css\inpfile.css" />
     <Content Include="assets\css\loginvoca.css" />
@@ -438,7 +439,9 @@
     <Content Include="Imagenes\fondocrede.png" />
     <Content Include="images\bot1.png" />
     <Content Include="images\carlos.png" />
+    <Content Include="images\infoswal.png" />
     <Content Include="images\joseluis.jpg" />
+    <Content Include="images\logoCuestionario.jpg" />
     <Content Include="images\logodefault.png" />
     <Content Include="images\mauro.jpg" />
     <Content Include="images\membrete.png" />

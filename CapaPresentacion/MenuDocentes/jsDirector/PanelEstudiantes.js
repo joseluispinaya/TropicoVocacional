@@ -4,6 +4,10 @@ let tablaData;
 let tablaDataHis;
 let tablaDetallesHi;
 
+let estudianteSelect = null;
+let listHistoriaRpt = [];
+const { jsPDF } = window.jspdf;
+
 $(document).ready(function () {
 
     // 1. CONFIGURACIÓN DEL SELECT2 (Buscador de Docentes)
@@ -29,7 +33,8 @@ $(document).ready(function () {
                             // Guardamos datos extra para usarlos al seleccionar
                             imgUrl: item.Photo,
                             ci: item.NroCi,
-                            nombres: item.FullName
+                            nombres: item.FullName,
+                            dataCompleta: item
                         }
                     })
                 };
@@ -41,6 +46,8 @@ $(document).ready(function () {
     // EVENTO: Al seleccionar un docente del Select2
     $('#cboBuscarEstudian').on('select2:select', function (e) {
         var data = e.params.data;
+        estudianteSelect = data.dataCompleta;
+        //console.log("Estudiante seleccionado:", estudianteSelect);
 
         // Asignamos el ID al input oculto
         $("#txtIdEstudiante").val(data.id);
@@ -69,7 +76,7 @@ $(document).ready(function () {
             $("#tbDataHist").DataTable().clear().draw();
         }
 
-        $("#lblMateriaSelect").text("Esperando...");
+        //$("#lblMateriaSelect").text("Esperando...");
         //$("#btnReporte").prop("disabled", true);
     });
 
@@ -141,6 +148,8 @@ $('#tbDataHist tbody').on('click', '.btn-ver', function () {
     let data = tablaDataHis.row(fila).data();
     //const textoSms = $("#lblNombreEsr").text();
     detalleHistorialEst(data.IdTest);
+    $("#lblObservaGen").text(data.ObservacionGeneralIA);
+    $("#txtFechaTest").val(data.FechaTest);
     //$("#myModalLabeldett").text(textoSms);
     $("#mdDetalles").modal("show");
     //swal("Mensaje", textoSms, "info")
@@ -174,6 +183,7 @@ function detalleHistorialEst(idTest) {
             },
             "dataSrc": function (json) {
                 if (json.d.Estado) {
+                    listHistoriaRpt = json.d.Data;
                     return json.d.Data;
                 } else {
                     return [];
@@ -241,6 +251,174 @@ function detalleHistorialEst(idTest) {
             "url": "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
         }
     });
+}
+
+$("#btnReport").on("click", function () {
+    if (listHistoriaRpt.length < 1) {
+        swal("Mensaje", "No se puede generar reporte vacío, verifique que existan resultados.", "warning");
+        return;
+    }
+    GenerarReporteTests();
+});
+
+function GenerarReporteTests() {
+    // Validar que exista el estudiante antes de generar el reporte
+    if (!estudianteSelect || listHistoriaRpt.length === 0) {
+        swal("Atención", "No hay datos suficientes para generar el reporte.", "warning");
+        return;
+    }
+
+    // 1. Configuración Inicial
+    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+    const pageWidth = doc.internal.pageSize.width;
+    const pageHeight = doc.internal.pageSize.height;
+    const fechaActual = new Date().toLocaleDateString("es-BO");
+
+    // Captura de datos de la interfaz y variables globales
+    const nombreUni = usuarioGlobal.NombreUnidadEducativa ? usuarioGlobal.NombreUnidadEducativa : "UNIDAD EDUCATIVA";
+    const observacionGen = $("#lblObservaGen").text().trim();
+    const fechaTest = $("#txtFechaTest").val().trim();
+
+    // ==========================================
+    // 2. ENCABEZADO Y LOGO
+    // ==========================================
+    var img = new Image();
+    img.src = "/images/membrete.png";
+    try {
+        doc.addImage(img, 'PNG', 15, 10, 55, 25);
+    } catch (e) {
+        console.warn("No se pudo cargar el logo, verifique la ruta.");
+    }
+
+    doc.setTextColor(0);
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("RESULTADOS DEL TEST VOCACIONAL", pageWidth - 15, 20, { align: "right" });
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text("Sistema de Orientación Vocacional IA", pageWidth - 15, 26, { align: "right" });
+    doc.text(`Fecha de Emisión: ${fechaActual}`, pageWidth - 15, 31, { align: "right" });
+
+    doc.setDrawColor(150, 150, 150);
+    doc.setLineWidth(0.5);
+    doc.line(15, 40, pageWidth - 15, 40);
+
+    // ==========================================
+    // 3. DATOS DEL ESTUDIANTE (Dos Columnas)
+    // ==========================================
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.text("1. DATOS DEL ESTUDIANTE", 15, 50);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+
+    // Columna 1
+    doc.text(`Estudiante: ${estudianteSelect.FullName}`, 15, 58);
+    doc.text(`Unidad Educativa: ${nombreUni}`, 15, 64);
+
+    // Columna 2
+    doc.text(`C.I.: ${estudianteSelect.NroCi}`, 120, 58);
+    doc.text(`Realizado el: ${fechaTest}`, 120, 64);
+
+    // ==========================================
+    // 4. ANÁLISIS GENERAL DE LA IA
+    // ==========================================
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.text("2. ANÁLISIS DEL PERFIL", 15, 78);
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "italic"); // Cursiva para citas de la IA
+    doc.setTextColor(80, 80, 80); // Gris oscuro
+
+    // Dividir el texto largo en múltiples líneas para que no se salga de la hoja (margen derecho 15mm)
+    const lineasObservacion = doc.splitTextToSize(`"${observacionGen}"`, pageWidth - 30);
+    doc.text(lineasObservacion, 15, 86);
+
+    // Calcular en qué posición "Y" terminó el texto para colocar la tabla debajo
+    let nextY = 86 + (lineasObservacion.length * 5) + 10;
+    doc.setTextColor(0); // Restaurar a color negro
+
+    // ==========================================
+    // 5. TABLA DE RECOMENDACIONES
+    // ==========================================
+    doc.setFontSize(11);
+    doc.setFont("helvetica", "bold");
+    doc.text("3. TOP CARRERAS RECOMENDADAS", 15, nextY);
+
+    const headers = [["#", "CARRERA", "JUSTIFICACIÓN (IA)", "AFINIDAD"]];
+    const data = listHistoriaRpt.map((item, index) => [
+        index + 1,
+        item.Carrera,
+        item.Justificacion,
+        `${Math.round(item.Puntaje)}%`
+    ]);
+
+    doc.autoTable({
+        startY: nextY + 5,
+        head: headers,
+        body: data,
+        theme: 'grid',
+        styles: {
+            fontSize: 9,
+            cellPadding: 3,
+            valign: 'middle'
+        },
+        headStyles: {
+            fillColor: [0, 123, 255], // Azul primario para destacar que son resultados
+            textColor: 255,
+            halign: 'center',
+            fontStyle: 'bold'
+        },
+        alternateRowStyles: {
+            fillColor: [245, 245, 245]
+        },
+        columnStyles: {
+            0: { cellWidth: 10, halign: 'center', fontStyle: 'bold' },
+            1: { cellWidth: 40, fontStyle: 'bold' },
+            2: { cellWidth: 105, fontStyle: 'italic', textColor: [80, 80, 80] }, // Justificación en cursiva y gris
+            3: { cellWidth: 25, halign: 'center', fontStyle: 'bold' }
+        },
+        margin: { left: 15, right: 15 }
+    });
+
+    // ==========================================
+    // 6. PIE Y FIRMA
+    // ==========================================
+    let finalY = doc.lastAutoTable.finalY;
+
+    if (finalY + 40 > pageHeight) {
+        doc.addPage();
+        finalY = 20;
+    }
+
+    const firmaY = finalY + 30;
+    const lineLength = 70;
+    const xLineStart = (pageWidth - lineLength) / 2;
+    const xLineEnd = xLineStart + lineLength;
+
+    doc.setDrawColor(0, 0, 0);
+    doc.setLineWidth(0.5);
+    doc.line(xLineStart, firmaY, xLineEnd, firmaY);
+
+    doc.setFontSize(10);
+    doc.text("Firma del Estudiante", pageWidth / 2, firmaY + 5, { align: "center" });
+
+    // Paginación
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150);
+        doc.text(`Generado por Sistema Vocacional IA - ${fechaActual}`, 15, pageHeight - 10);
+        doc.text(`Página ${i} de ${totalPages}`, pageWidth - 15, pageHeight - 10, { align: "right" });
+    }
+
+    // Exportar con nombre limpio del estudiante
+    let nombreArchivoLimpio = estudianteSelect.FullName.replace(/[^a-zA-Z0-9]/g, "_");
+    doc.save(`ResultadosTest_${nombreArchivoLimpio}_${fechaActual.replace(/\//g, "")}.pdf`);
 }
 
 // fin

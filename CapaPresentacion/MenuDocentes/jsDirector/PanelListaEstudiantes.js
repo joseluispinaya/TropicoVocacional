@@ -1,5 +1,6 @@
 ﻿
 let tablaData;
+let tablaDataHis;
 let listEstudRpt = [];
 const { jsPDF } = window.jspdf;
 
@@ -102,6 +103,69 @@ function cargarEstudiantes() {
         "language": {
             "url": "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json",
             "emptyTable": "No se encontraron estudiantes registrados en esta Unidad Educativa."
+        }
+    });
+}
+
+$('#tbDatas tbody').on('click', '.btn-informa', function () {
+
+    let fila = $(this).closest('tr');
+
+    if (fila.hasClass('child')) {
+        fila = fila.prev();
+    }
+
+    let data = tablaData.row(fila).data();
+    listaHistorialEst(data.IdEstudiante);
+    $("#mdDetallesHis").modal("show");
+    //swal("Mensaje", textoSms, "info")
+
+});
+
+function listaHistorialEst(idEstudiante) {
+    if ($.fn.DataTable.isDataTable("#tbDataHist")) {
+        $("#tbDataHist").DataTable().destroy();
+        $('#tbDataHist tbody').empty();
+    }
+
+    var request = {
+        IdEstudiante: parseInt(idEstudiante)
+    };
+
+    tablaDataHis = $("#tbDataHist").DataTable({
+        responsive: true,
+        searching: false,
+        info: false,
+        "ajax": {
+            "url": '/PageEstudiantes.aspx/HistorialTestEst',
+            "type": "POST",
+            "contentType": "application/json; charset=utf-8",
+            "dataType": "json",
+            "data": function () {
+                return JSON.stringify(request);
+            },
+            "dataSrc": function (json) {
+                if (json.d.Estado) {
+                    return json.d.Data;
+                } else {
+                    return [];
+                }
+            }
+        },
+        "columns": [
+            { "data": "IdTest", "visible": false, "searchable": false },
+            {
+                "data": "ObservacionGeneralIA",
+                "className": "text-wrap text-muted align-middle",
+                "render": function (data) {
+                    // Texto en cursiva con icono de comillas
+                    return `<div><i class="fas fa-quote-left fa-fw text-secondary mr-1"></i> <em>${data}</em></div>`;
+                }
+            }
+        ],
+        "order": [[0, "desc"]],
+        "language": {
+            "url": "https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json"
         }
     });
 }

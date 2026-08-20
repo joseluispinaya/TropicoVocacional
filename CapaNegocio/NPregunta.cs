@@ -47,5 +47,10 @@ namespace CapaNegocio
         {
             return DPregunta.GetInstance().ListaCarreras();
         }
+
+        public Respuesta<List<CuestionarioDTO>> ObtenerPreguntasAgrupadas()
+        {
+            return DPregunta.GetInstance().ObtenerPreguntasAgrupadas();
+        }
     }
 }

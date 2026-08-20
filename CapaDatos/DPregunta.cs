@@ -317,5 +317,62 @@ namespace CapaDatos
             }
         }
 
+        public Respuesta<List<CuestionarioDTO>> ObtenerPreguntasAgrupadas()
+        {
+            List<CuestionarioDTO> listaCuestionarios = new List<CuestionarioDTO>();
+
+            try
+            {
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand cmd = new SqlCommand("usp_ObtenerPreguntasAgrupadas", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        con.Open();
+                        using (SqlDataReader dr = cmd.ExecuteReader())
+                        {
+                            while (dr.Read())
+                            {
+                                int idCuestionario = Convert.ToInt32(dr["IdCuestionario"]);
+
+                                // Buscamos si el cuestionario ya existe en la lista
+                                var cuestionario = listaCuestionarios.FirstOrDefault(c => c.IdCuestionario == idCuestionario);
+
+                                // Si no existe, lo creamos y lo agregamos
+                                if (cuestionario == null)
+                                {
+                                    cuestionario = new CuestionarioDTO
+                                    {
+                                        IdCuestionario = idCuestionario,
+                                        Titulo = dr["Titulo"].ToString()
+                                    };
+                                    listaCuestionarios.Add(cuestionario);
+                                }
+
+                                // Agregamos la pregunta a la lista interna del cuestionario
+                                cuestionario.Preguntas.Add(new PreguntaTestDTO
+                                {
+                                    IdPregunta = Convert.ToInt32(dr["IdPregunta"]),
+                                    Pregunta = dr["Pregunta"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+
+                if (listaCuestionarios.Count == 0)
+                {
+                    return new Respuesta<List<CuestionarioDTO>> { Estado = false, Mensaje = "No existen cuestionarios." };
+                }
+
+                return new Respuesta<List<CuestionarioDTO>> { Estado = true, Data = listaCuestionarios };
+            }
+            catch (Exception ex)
+            {
+                return new Respuesta<List<CuestionarioDTO>> { Estado = false, Mensaje = "Error: " + ex.Message };
+            }
+        }
+
     }
 }

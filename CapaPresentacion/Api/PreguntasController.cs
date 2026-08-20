@@ -19,6 +19,79 @@ namespace CapaPresentacion.Api
     public class PreguntasController : ApiController
     {
         [HttpGet]
+        [Route("preguntasAgrupadas")]
+        public IHttpActionResult PreguntasAgrupadas()
+        {
+            var respuesta = NPregunta.GetInstance().ObtenerPreguntasAgrupadas();
+            return Ok(respuesta);
+        }
+
+        [HttpPost]
+        [Route("procesarTest")]
+        public IHttpActionResult ProcesarTestValidacion([FromBody] TestRequestDTO request)
+        {
+            // 1. VALIDACIÓN INICIAL
+            if (request == null || request.IdEstudiante <= 0 || request.Respuestas == null || request.Respuestas.Count == 0)
+            {
+                return Ok(new Respuesta<ResponseModelDTO>
+                {
+                    Estado = false,
+                    Data = null,
+                    Mensaje = "Datos incompletos. Asegúrese de enviar el estudiante y sus respuestas."
+                });
+            }
+
+            try
+            {
+
+                // ENVIAR AL MODELO preguntas y respuestas
+                var resultadoIA = TestModelIA.GetInstance().AnalizarTestValidacion(request.Respuestas);
+
+                if (!resultadoIA.Estado)
+                {
+                    return Ok(resultadoIA);
+                }
+
+                // Se extrae el objeto completo que nos devolvió el modelo
+                ResponseModelDTO datosFinalesIA = resultadoIA.Data;
+                string recomendacionesJsonParaSQL = JsonConvert.SerializeObject(datosFinalesIA.Recomendaciones);
+
+                // guardar los resultados de la ia en mi base de datos
+                var resGuardarIA = NRespuesta.GetInstance().RegistrarResultadoModelo(request.IdEstudiante, datosFinalesIA.ObservacionGeneralIA, recomendacionesJsonParaSQL);
+
+                if (!resGuardarIA.Estado || resGuardarIA.Data == 0)
+                {
+                    return Ok(new Respuesta<ResponseModelDTO>
+                    {
+                        Estado = false,
+                        Data = null,
+                        Mensaje = resGuardarIA.Mensaje
+                    });
+                }
+
+                return Ok(new Respuesta<ResponseModelDTO>
+                {
+                    Estado = true,
+                    Data = datosFinalesIA,
+                    Mensaje = "Test procesado y analizado con éxito."
+                });
+
+
+            }
+            catch (Exception ex)
+            {
+                return Ok(new Respuesta<ResponseModelDTO>
+                {
+                    Estado = false,
+                    Data = null,
+                    Mensaje = "Ocurrió un error en el servidor: " + ex.Message
+                });
+            }
+
+        }
+
+
+        [HttpGet]
         [Route("preguntasTest")]
         public IHttpActionResult PreguntasRandon()
         {

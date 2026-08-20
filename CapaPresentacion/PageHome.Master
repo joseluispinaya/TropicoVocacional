@@ -99,8 +99,8 @@
                             <div class="dropdown">
                                 <a href="#" class="dropdown-toggle" id="rolnomme" data-toggle="dropdown" aria-expanded="false">Usuario</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="javascript:void(0)" class="dropdown-item">Perfil</a></li>
-                                    <li><a href="javascript:void(0)" class="dropdown-item"><span class="badge badge-success float-right">5</span> Ajustes </a></li>
+                                    <%--<li><a href="javascript:void(0)" class="dropdown-item">Perfil</a></li>--%>
+                                    <%--<li><a href="javascript:void(0)" class="dropdown-item"><span class="badge badge-success float-right">5</span> Ajustes </a></li>--%>
                                     <li class="dropdown-divider"></li>
                                     <li><a href="javascript:void(0)" class="dropdown-item">Salir</a></li>
                                 </ul>

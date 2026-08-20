@@ -50,7 +50,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text login-icon-box"><i class="fas fa-lock"></i></span>
                                         </div>
-                                        <input type="password" id="txtClave" class="form-control login-input" placeholder="********" value="21222324">
+                                        <input type="password" id="txtClave" class="form-control login-input" placeholder="********" value="Elzero20">
                                     </div>
                                 </div>
 
@@ -58,10 +58,10 @@
                                     INGRESAR <i class="fas fa-sign-in-alt ml-2"></i>
                                 </button>
 
-                                <%--<div class="text-center mt-4">
+                                <div class="text-center mt-4">
                                     <a href="#" data-toggle="modal" data-target="#mdForgotPassword" class="forgot-link">¿Olvidó su contraseña?
                                     </a>
-                                </div>--%>
+                                </div>
                             </div>
 
                         </div>
@@ -81,7 +81,7 @@
                 <div class="modal-body">
                     <p class="text-muted">Ingrese su correo electrónico y le enviaremos las instrucciones para restablecer su contraseña.</p>
                     <div class="form-group">
-                        <input type="email" class="form-control login-input" placeholder="Ingrese su correo" autocomplete="off">
+                        <input type="email" id="txtReCorreo" class="form-control login-input" placeholder="Ingrese su correo" autocomplete="off">
                     </div>
                 </div>
                 <div class="modal-footer border-0">
@@ -97,7 +97,6 @@
     <script src="assets/js/bootstrap.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <%--<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>--%>
     <script src="assets/plugins/loadingoverlay/loadingoverlay.js"></script>
     <script src="js/Login.js?v=<%= DateTime.Now.ToString("yyyyMMddHHmmss") %>" type="text/javascript"></script>
 </body>

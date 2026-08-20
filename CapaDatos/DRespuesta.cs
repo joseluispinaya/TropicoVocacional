@@ -315,5 +315,57 @@ namespace CapaDatos
             }
         }
 
+        public Respuesta<int> RegistrarResultadoModelo(int idEstudiante, string observacionGeneralIA, string recomendacionesJSON)
+        {
+            var respuesta = new Respuesta<int>();
+
+            try
+            {
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                using (SqlCommand cmd = new SqlCommand("usp_RegistroResultadosNuevoIA", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Parámetros de entrada
+                    cmd.Parameters.Add("@IdEstudiante", SqlDbType.Int).Value = idEstudiante;
+                    cmd.Parameters.Add("@ObservacionGeneralIA", SqlDbType.NVarChar).Value = observacionGeneralIA;
+                    cmd.Parameters.Add("@RecomendacionesJSON", SqlDbType.NVarChar).Value = recomendacionesJSON;
+
+                    // Parámetro de salida (OUTPUT)
+                    var paramResult = new SqlParameter("@Resultado", SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(paramResult);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+
+                    int resultInt = Convert.ToInt32(paramResult.Value);
+
+                    if (resultInt > 0)
+                    {
+                        respuesta.Estado = true;
+                        respuesta.Data = resultInt;
+                        respuesta.Mensaje = "Test y respuestas registrados correctamente.";
+                    }
+                    else
+                    {
+                        respuesta.Estado = false;
+                        respuesta.Data = 0;
+                        respuesta.Mensaje = "Error interno en la base de datos al registrar el resultado.";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                respuesta.Estado = false;
+                respuesta.Data = 0;
+                respuesta.Mensaje = $"Error de BD: {ex.Message}";
+            }
+
+            return respuesta;
+        }
+
     }
 }

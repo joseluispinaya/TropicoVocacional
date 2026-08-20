@@ -187,5 +187,43 @@ namespace CapaPresentacion
             }
         }
 
+        [WebMethod]
+        public static Respuesta<bool> SolicitudRecuperacion(string Correo)
+        {
+            try
+            {
+                var respBD = NDirector.GetInstance().LoginDirectores(Correo);
+
+                if (!respBD.Estado || respBD.Data == null)
+                {
+                    return new Respuesta<bool> { Estado = false, Mensaje = "El correo electronico no se ecuentra en la base de datos." };
+                }
+
+                var objUser = respBD.Data;
+                var tokenSesion = Guid.NewGuid().ToString("N");
+                //https://localhost:44306/
+                string confirmUrl = $"https://localhost:44306/RestablecerAcceso.aspx?email={objUser.Correo}&token={tokenSesion}";
+
+                bool correoEnviado = Utilidadesj.GetInstance().EnviosCorreos(objUser.Correo, "Recuperar Acceso", objUser.FullName, confirmUrl);
+
+                return new Respuesta<bool>
+                {
+                    Estado = correoEnviado,
+                    Mensaje = correoEnviado ? "Recuperacion exitosa. Verifique su correo." : "Error al recuperar. No se pudo enviar acceso a su correo."
+                };
+
+
+            }
+            catch (Exception ex)
+            {
+                // Manejar excepciones
+                return new Respuesta<bool>
+                {
+                    Estado = false,
+                    Mensaje = "Ocurrió un error: " + ex.Message
+                };
+            }
+        }
+
     }
 }

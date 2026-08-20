@@ -48,5 +48,10 @@ namespace CapaNegocio
         {
             return DRespuesta.GetInstance().DetalleHistorialTest(IdTest);
         }
+
+        public Respuesta<int> RegistrarResultadoModelo(int idEstudiante, string observacionGeneralIA, string recomendacionesJSON)
+        {
+            return DRespuesta.GetInstance().RegistrarResultadoModelo(idEstudiante, observacionGeneralIA, recomendacionesJSON);
+        }
     }
 }

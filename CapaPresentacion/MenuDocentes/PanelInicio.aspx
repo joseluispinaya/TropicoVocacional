@@ -68,9 +68,9 @@
                 <div class="card-body">
                     <div class="media">
                         <div class="media-body">
-                            <h5 class="text-muted font-weight-light m-t-0 m-b-10">Recomendaciones</h5>
+                            <h5 class="text-muted font-weight-light m-t-0 m-b-10">Detalle Historial</h5>
                             <h2 class="m-t-0 m-b-5"><b id="lblTotalRecomendaciones">0</b></h2>
-                            <p class="text-success m-b-0 font-13">Generadas en total</p>
+                            <p class="text-success m-b-0 font-13">En total</p>
                         </div>
                         <div class="ml-auto">
                             <span class="badge badge-secondary p-2" style="font-size: 24px; border-radius: 8px; opacity: 0.8;">

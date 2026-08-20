@@ -23,6 +23,7 @@ namespace CapaNegocio
             return instancia;
         }
         #endregion
+
         public Respuesta<int> GuardarOrEditDirector(EDirector oModel)
         {
             return DDirector.GetInstance().GuardarOrEditDirector(oModel);

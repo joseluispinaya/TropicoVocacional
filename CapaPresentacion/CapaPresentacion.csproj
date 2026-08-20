@@ -456,6 +456,7 @@
     <Content Include="js\PageCuestionario.js" />
     <Content Include="js\PageDirectores.js" />
     <Content Include="js\PagePregunta.js" />
+    <Content Include="js\RestablecerAcceso.js" />
     <Content Include="js\UnidsEducativas.js" />
     <Content Include="ListaEstudiantes.aspx" />
     <Content Include="Login.aspx" />
@@ -464,15 +465,18 @@
     <Content Include="MenuDocentes\jsDirector\PanelInformes.js" />
     <Content Include="MenuDocentes\jsDirector\PanelInicio.js" />
     <Content Include="MenuDocentes\jsDirector\PanelListaEstudiantes.js" />
+    <Content Include="MenuDocentes\jsDirector\PerfilUser.js" />
     <Content Include="MenuDocentes\PanelEstudiantes.aspx" />
     <Content Include="MenuDocentes\PanelInformes.aspx" />
     <Content Include="MenuDocentes\PanelInicio.aspx" />
     <Content Include="MenuDocentes\PanelListaEstudiantes.aspx" />
+    <Content Include="MenuDocentes\PerfilUser.aspx" />
     <Content Include="PageCuestionario.aspx" />
     <Content Include="PageDirectores.aspx" />
     <Content Include="PageEstudiantes.aspx" />
     <Content Include="PagePreguntas.aspx" />
     <Content Include="PageUndsEducativas.aspx" />
+    <Content Include="RestablecerAcceso.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -554,6 +558,13 @@
     <Compile Include="MenuDocentes\PanelListaEstudiantes.aspx.designer.cs">
       <DependentUpon>PanelListaEstudiantes.aspx</DependentUpon>
     </Compile>
+    <Compile Include="MenuDocentes\PerfilUser.aspx.cs">
+      <DependentUpon>PerfilUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MenuDocentes\PerfilUser.aspx.designer.cs">
+      <DependentUpon>PerfilUser.aspx</DependentUpon>
+    </Compile>
     <Compile Include="PageCuestionario.aspx.cs">
       <DependentUpon>PageCuestionario.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -597,7 +608,15 @@
       <DependentUpon>PageUndsEducativas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RestablecerAcceso.aspx.cs">
+      <DependentUpon>RestablecerAcceso.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RestablecerAcceso.aspx.designer.cs">
+      <DependentUpon>RestablecerAcceso.aspx</DependentUpon>
+    </Compile>
     <Compile Include="SesionHelper.cs" />
+    <Compile Include="TestModelIA.cs" />
     <Compile Include="Utilidadesj.cs" />
   </ItemGroup>
   <ItemGroup>

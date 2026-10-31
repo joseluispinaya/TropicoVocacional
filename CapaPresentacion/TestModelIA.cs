@@ -110,7 +110,8 @@ namespace CapaPresentacion
                     {
                         Estado = false,
                         Data = null,
-                        Mensaje = resultado.MensajeError // Ej: "No se pudo generar una recomendación porque las respuestas ingresadas no tienen relación con las preguntas."
+                        Mensaje = resultado.MensajeError 
+                        // Ej: "No se pudo generar una recomendación porque las respuestas ingresadas no tienen relación con las preguntas."
                     };
                 }
 

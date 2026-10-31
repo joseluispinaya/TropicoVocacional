@@ -40,7 +40,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text login-icon-box"><i class="fas fa-envelope"></i></span>
                                         </div>
-                                        <input type="email" id="txtCorreo" class="form-control login-input" placeholder="ejemplo@correo.com" autocomplete="off" value="miguelinpp@yopmail.com">
+                                        <input type="email" id="txtCorreo" class="form-control login-input" placeholder="ejemplo@correo.com" autocomplete="off">
                                     </div>
                                 </div>
 
@@ -50,7 +50,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text login-icon-box"><i class="fas fa-lock"></i></span>
                                         </div>
-                                        <input type="password" id="txtClave" class="form-control login-input" placeholder="********" value="Elzero20">
+                                        <input type="password" id="txtClave" class="form-control login-input" placeholder="********">
                                     </div>
                                 </div>
 

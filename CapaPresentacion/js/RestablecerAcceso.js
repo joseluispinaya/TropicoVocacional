@@ -1,32 +1,40 @@
 ﻿
 let v_Token = "";
+let v_Ruta = "";
 
 $(document).ready(function () {
-    // 1. Obtener parámetros de la URL
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const email = urlParams.get('email');
     const token = urlParams.get('token');
+    const ruta = urlParams.get('ruta'); // 'user' o 'est'
 
-    // 2. Validación de Enlace Inválido
-    if (!email || !token || email.trim() === "" || token.trim() === "") {
+    // 1. Validación de Enlace Inválido
+    if (!email || !token || !ruta || email.trim() === "" || token.trim() === "" || ruta.trim() === "") {
+        // En lugar de redirigir, mostramos la alerta infinita y ocultamos el formulario
         Swal.fire({
             icon: 'error',
-            title: 'Enlace Inválido',
-            text: 'Este enlace de recuperación está corrupto o incompleto.',
-            timer: 4000,
+            title: 'Enlace Inválido o Expirado',
+            text: 'Este enlace de recuperación está corrupto o incompleto. Solicite uno nuevo.',
             showConfirmButton: false,
             allowOutsideClick: false
-        }).then(() => {
-            redirigirA('Login.aspx', 0);
         });
+
+        // Ocultamos el cuerpo de la tarjeta para que no intenten llenar nada
+        $(".card-body").hide();
+        return; // Detenemos la ejecución
     } else {
         v_Token = token;
-        console.log(v_Token);
-        $("#txtCorreo").val(email); // Llenar el campo readonly
+        v_Ruta = ruta;
+        $("#txtCorreo").val(email);
+
+        // Opcional: Ocultar el botón "Volver al Login" si es un estudiante en celular
+        if (v_Ruta === "est") {
+            $("#btnVolverLogin").hide(); // Asegúrate de ponerle este ID a tu enlace "Volver al Login"
+        }
     }
 
-    // 3. Ver/Ocultar Contraseñas
+    // 2. Ver/Ocultar Contraseñas
     $('.pwd-toggle').on('click', function () {
         let input = $(this).closest('.input-group').find('.pwd-input');
         let icon = $(this).find('i');
@@ -40,7 +48,7 @@ $(document).ready(function () {
         }
     });
 
-    // 4. Validar Seguridad al Escribir
+    // 3. Validar Seguridad al Escribir
     $('#txtPassNueva, #txtPassConfirma').on('keyup', function () {
         validarSeguridadPassword();
     });
@@ -114,7 +122,11 @@ function actualizarIconoRegla(idElemento, cumple) {
     }
 }
 
-// 5. Envío de Formulario
+function habilitarBoton() {
+    $('#btnActualizarPass').prop('disabled', false);
+}
+
+// 4. Envío Dinámico del Formulario
 $("#btnActualizarPass").on("click", function () {
     let nueva = $("#txtPassNueva").val();
     let correoForm = $("#txtCorreo").val().trim();
@@ -127,9 +139,14 @@ $("#btnActualizarPass").on("click", function () {
         text: "Procesando..."
     });
 
+    // Definimos la URL de destino dinámicamente según la ruta
+    let urlDestino = (v_Ruta === "est")
+        ? "RestablecerAcceso.aspx/RestablecerPasswordEst"
+        : "RestablecerAcceso.aspx/RestablecerPassword";
+
     $.ajax({
         type: "POST",
-        url: "RestablecerAcceso.aspx/RestablecerPassword",
+        url: urlDestino,
         data: JSON.stringify({ correo: correoForm, token: v_Token, passNueva: nueva }),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
@@ -137,16 +154,31 @@ $("#btnActualizarPass").on("click", function () {
             $("#cardContainer").LoadingOverlay("hide");
 
             if (response.d.Estado) {
-                Swal.fire({
-                    icon: 'success',
-                    title: "¡Contraseña Restablecida!",
-                    text: "Por seguridad, será redirigido al inicio de sesión.",
-                    timer: 3000,
-                    showConfirmButton: false,
-                    allowOutsideClick: false
-                }).then(() => {
-                    redirigirA('Login.aspx', 0);
-                });
+
+                // LÓGICA DIFERENCIADA EN CASO DE ÉXITO
+                if (v_Ruta === "est") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: "¡Contraseña Restablecida!",
+                        text: "Su nueva contraseña se ha guardado correctamente. Ya puede cerrar esta ventana e iniciar sesión desde la Aplicación Móvil.",
+                        showConfirmButton: false,
+                        allowOutsideClick: false
+                    });
+                    $(".card-body").hide(); // Ocultamos para que no envíen de nuevo
+                }
+                else {
+                    Swal.fire({
+                        icon: 'success',
+                        title: "¡Contraseña Restablecida!",
+                        text: "Por seguridad, será redirigido al inicio de sesión.",
+                        timer: 3000,
+                        showConfirmButton: false,
+                        allowOutsideClick: false
+                    }).then(() => {
+                        redirigirA('Login.aspx', 0);
+                    });
+                }
+
             } else {
                 Swal.fire({
                     icon: 'warning',
@@ -164,10 +196,9 @@ $("#btnActualizarPass").on("click", function () {
             });
         },
         complete: function () {
-            // Solo lo habilitamos de nuevo si no fue exitoso, 
-            // si fue exitoso, ya estamos redirigiendo.
+            // Solo rehabilitamos si no hay un mensaje de éxito permanente en pantalla
             if ($(".swal2-success").length === 0) {
-                $('#btnActualizarPass').prop('disabled', false);
+                habilitarBoton();
             }
         }
     });

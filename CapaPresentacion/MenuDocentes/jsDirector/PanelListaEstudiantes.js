@@ -16,7 +16,7 @@ function cargarEstudiantes() {
 
     tablaData = $("#tbDatas").DataTable({
         responsive: true,
-        searching: false, // Desactivado si solo muestras los de un colegio
+        searching: false,
         "ajax": {
             "url": 'PanelListaEstudiantes.aspx/ListarEstIdUndEd',
             "type": "POST",
@@ -54,16 +54,15 @@ function cargarEstudiantes() {
             { "data": "IdEstudiante", "visible": false, "searchable": false },
             {
                 "data": "FullName",
+                "width": "55%",
                 "orderable": false,
                 "searchable": false,
                 "className": "align-middle",
                 "render": function (data, type, row) {
                     let imgUrl = row.Photo || '../images/sinimagen.png';
-
-                    // Diseño mejorado usando clases de espaciado del Webadmin
                     return `
                         <div class="media align-items-center">
-                            <img src="${imgUrl}" alt="Estudiante" class="thumb-md rounded-circle m-r-15 bx-shadow" onerror="this.src='images/sinimagen.png';"> 
+                            <img src="${imgUrl}" alt="Estudiante" class="thumb-md rounded-circle m-r-15 bx-shadow" onerror="this.src='../images/sinimagen.png';"> 
                             <div class="media-body">
                                 <h5 class="m-0 font-15 text-dark">${data}</h5>
                                 <p class="text-muted m-b-0 font-13"><i class="fa fa-envelope m-r-5"></i>${row.Correo}</p>
@@ -74,29 +73,51 @@ function cargarEstudiantes() {
             },
             {
                 "data": "NroCi",
-                "className": "align-middle", // Alineado a la derecha para equilibrar
+                "width": "25%",
+                "className": "align-middle",
                 "render": function (data, type, row) {
-                    // EVALUACIÓN DEL ESTADO BOOLEANO
                     let badgeEstado = row.Estado
                         ? '<span class="badge badge-success p-1"><i class="fa fa-check mr-1"></i>Activo</span>'
                         : '<span class="badge badge-danger p-1"><i class="fa fa-times mr-1"></i>Inactivo</span>';
+
+                    // NUEVO: Evaluamos si está aprobado
+                    let badgeAprobado = row.Aprobado
+                        ? '<span class="badge badge-info p-1 mt-1 d-block"><i class="fas fa-unlock mr-1"></i>Acceso Permitido</span>'
+                        : '<span class="badge badge-warning p-1 mt-1 d-block"><i class="fas fa-lock mr-1"></i>Pendiente Aprob.</span>';
 
                     return `
                         <div>
                             <span class="text-dark font-weight-bold d-block m-b-5"><i class="fa fa-id-card text-muted mr-2"></i>CI: ${data}</span>
                             ${badgeEstado}
+                            ${badgeAprobado}
                         </div>
                     `;
                 }
             },
             {
-                "defaultContent": `
-                    <button class="btn btn-primary btn-informa btn-sm">
-                        <i class="fas fa-id-badge mr-2"></i>Detalle
-                    </button>`,
+                "data": null,
+                "width": "20%",
                 "orderable": false,
                 "searchable": false,
-                "className": "text-center align-middle"
+                "className": "text-center align-middle",
+                "render": function (data, type, row) {
+                    // Lógica para el botón de Aprobación
+                    let btnAprobar = "";
+                    if (row.Aprobado) {
+                        // Si está aprobado, el botón es rojo para REVOCAR (Candado cerrado)
+                        btnAprobar = `<button class="btn btn-outline-danger btn-sm btn-aprobar mb-1 w-100 shadow-sm" title="Revocar Acceso"><i class="fas fa-lock mr-2"></i>Revocar Acceso</button>`;
+                    } else {
+                        // Si no está aprobado, el botón es verde para APROBAR (Candado abierto)
+                        btnAprobar = `<button class="btn btn-outline-success btn-sm btn-aprobar mb-1 w-100 shadow-sm" title="Permitir Acceso"><i class="fas fa-lock-open mr-2"></i>Aprobar Acceso</button>`;
+                    }
+
+                    return `
+                        ${btnAprobar}
+                        <button class="btn btn-primary btn-informa btn-sm w-100 shadow-sm">
+                            <i class="fas fa-id-badge mr-2"></i>Ver Detalle
+                        </button>
+                    `;
+                }
             }
         ],
         "order": [[0, "desc"]],
@@ -106,6 +127,76 @@ function cargarEstudiantes() {
         }
     });
 }
+
+// Evento para el botón de Aprobar/Revocar
+$('#tbDatas tbody').on('click', '.btn-aprobar', function () {
+    let fila = $(this).closest('tr');
+    if (fila.hasClass('child')) {
+        fila = fila.prev();
+    }
+
+    let data = tablaData.row(fila).data();
+    let idEstudiante = data.IdEstudiante;
+    let nombreEst = data.FullName;
+
+    // Determinamos la acción inversa al estado actual
+    let nuevoEstado = !data.Aprobado;
+    let accionTexto = nuevoEstado ? "Aprobar Acceso" : "Revocar Acceso";
+
+    // Quitamos las etiquetas HTML (<b>) porque esta versión de swal no las renderiza
+    let mensajePregunta = nuevoEstado
+        ? `¿Está seguro de permitir que ${nombreEst} ingrese a la aplicación?`
+        : `¿Está seguro de revocar el acceso a ${nombreEst}? No podrá iniciar sesión.`;
+
+    // Asignamos la clase del botón según la acción
+    let claseBoton = nuevoEstado ? "btn-success" : "btn-danger";
+
+    // Llamamos directamente a swal para poder personalizar la clase del botón
+    swal({
+        title: accionTexto,
+        text: mensajePregunta,
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonClass: claseBoton, // Usa las clases de tu CSS
+        confirmButtonText: "Sí, continuar",
+        cancelButtonText: "Cancelar",
+        closeOnConfirm: true // Se cierra al confirmar para mostrar el LoadingOverlay
+    }, function (isConfirm) {
+        if (isConfirm) {
+
+            $("#tbDatas").closest(".card").LoadingOverlay("show");
+
+            $.ajax({
+                type: "POST",
+                url: "PanelListaEstudiantes.aspx/CambiarAprobacion",
+                data: JSON.stringify({
+                    idEstudiante: idEstudiante,
+                    estado: nuevoEstado,
+                    correo: data.Correo,
+                    estudiante: nombreEst
+                }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    $("#tbDatas").closest(".card").LoadingOverlay("hide");
+
+                    if (response.d.Estado) {
+                        // Usamos tu función de alerta general
+                        AlertaTimerTipo("Éxito", response.d.Mensaje, "success", 2000);
+                        // Recargar la tabla sin perder la paginación actual
+                        tablaData.ajax.reload(null, false);
+                    } else {
+                        AlertaTimerTipo("Atención", response.d.Mensaje, "warning", 2500);
+                    }
+                },
+                error: function () {
+                    $("#tbDatas").closest(".card").LoadingOverlay("hide");
+                    AlertaTimerTipo("Error", "Error de comunicación con el servidor.", "error", 2500);
+                }
+            });
+        }
+    });
+});
 
 $('#tbDatas tbody').on('click', '.btn-informa', function () {
 

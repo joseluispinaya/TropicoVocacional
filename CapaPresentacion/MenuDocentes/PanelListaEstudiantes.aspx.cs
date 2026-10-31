@@ -36,5 +36,76 @@ namespace CapaPresentacion.MenuDocentes
             }
         }
 
+        [WebMethod(EnableSession = true)]
+        public static Respuesta<bool> CambiarAprobacion(int idEstudiante, bool estado, string correo, string estudiante)
+        {
+            if (SesionHelper.UsuarioLogueado == null)
+                return new Respuesta<bool> { Estado = false, Mensaje = "Sesión expirada" };
+
+            try
+            {
+                var respDB = NEstudiante.GetInstance().CambiarAprobacion(idEstudiante, estado);
+
+                if (respDB.Estado)
+                {
+                    string textoAccion = estado ? "APROBADO" : "REVOCADO";
+
+                    // Invocar el envío de correo
+                    bool correoEnviado = Utilidadesj.GetInstance().NotificarAcceso(
+                        correo,
+                        "Notificación de Acceso - Sistema Vocacional",
+                        estudiante,
+                        textoAccion
+                    );
+
+                    // Mensaje dinámico dependiendo de si el SMTP logró enviar el correo
+                    string mensajeFinal = correoEnviado
+                        ? $"Acceso {textoAccion.ToLower()} y notificado por correo."
+                        : $"Acceso {textoAccion.ToLower()}, pero falló el envío del correo.";
+
+                    return new Respuesta<bool>
+                    {
+                        Estado = true,
+                        Mensaje = mensajeFinal
+                    };
+                }
+
+                return new Respuesta<bool> { Estado = false, Mensaje = "No se pudo actualizar el estado del estudiante." };
+            }
+            catch (Exception)
+            {
+                return new Respuesta<bool> { Estado = false, Mensaje = "Error interno del servidor." };
+            }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public static Respuesta<bool> CambiarAprobacionDos(int idEstudiante, bool estado)
+        {
+            // Validación de seguridad básica (Opcional, pero recomendada)
+            if (SesionHelper.UsuarioLogueado == null)
+                return new Respuesta<bool> { Estado = false, Mensaje = "Sesión expirada" };
+
+            try
+            {
+                var respDB = NEstudiante.GetInstance().CambiarAprobacion(idEstudiante, estado);
+
+                if (respDB.Estado)
+                {
+                    string textoAccion = estado ? "aprobado" : "revocado";
+                    return new Respuesta<bool>
+                    {
+                        Estado = true,
+                        Mensaje = $"El acceso ha sido {textoAccion} correctamente."
+                    };
+                }
+
+                return new Respuesta<bool> { Estado = false, Mensaje = "No se pudo actualizar el estado del estudiante." };
+            }
+            catch (Exception)
+            {
+                return new Respuesta<bool> { Estado = false, Mensaje = "Error interno del servidor." };
+            }
+        }
+
     }
 }

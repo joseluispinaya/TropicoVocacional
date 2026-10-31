@@ -196,6 +196,7 @@
     <Content Include="assets\js\jquery.slimscroll.js" />
     <Content Include="assets\js\modernizr.min.js" />
     <Content Include="assets\js\popper.min.js" />
+    <Content Include="assets\js\validacionesGlobales.js" />
     <Content Include="assets\js\waves.js" />
     <Content Include="assets\js\wow.min.js" />
     <Content Include="assets\pages\calendar-init.js" />
@@ -438,7 +439,11 @@
     <Content Include="ImagenesEst\sinfotoo.png" />
     <Content Include="Imagenes\fondocrede.png" />
     <Content Include="images\bot1.png" />
+    <Content Include="images\capturavo.jpg" />
+    <Content Include="images\capturavo2.jpg" />
+    <Content Include="images\capturavo3.jpg" />
     <Content Include="images\carlos.png" />
+    <Content Include="images\faviconaa.ico" />
     <Content Include="images\infoswal.png" />
     <Content Include="images\joseluis.jpg" />
     <Content Include="images\logoCuestionario.jpg" />
@@ -477,6 +482,7 @@
     <Content Include="PagePreguntas.aspx" />
     <Content Include="PageUndsEducativas.aspx" />
     <Content Include="RestablecerAcceso.aspx" />
+    <Content Include="VocacionalApp.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -618,6 +624,13 @@
     <Compile Include="SesionHelper.cs" />
     <Compile Include="TestModelIA.cs" />
     <Compile Include="Utilidadesj.cs" />
+    <Compile Include="VocacionalApp.aspx.cs">
+      <DependentUpon>VocacionalApp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VocacionalApp.aspx.designer.cs">
+      <DependentUpon>VocacionalApp.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\icons.css.map" />

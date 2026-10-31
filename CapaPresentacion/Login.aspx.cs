@@ -201,8 +201,9 @@ namespace CapaPresentacion
 
                 var objUser = respBD.Data;
                 var tokenSesion = Guid.NewGuid().ToString("N");
+                var ruta = "user";
                 //https://localhost:44306/
-                string confirmUrl = $"https://localhost:44306/RestablecerAcceso.aspx?email={objUser.Correo}&token={tokenSesion}";
+                string confirmUrl = $"https://isaacpintado16-001-site1.etempurl.com/RestablecerAcceso.aspx?email={objUser.Correo}&token={tokenSesion}&ruta={ruta}";
 
                 bool correoEnviado = Utilidadesj.GetInstance().EnviosCorreos(objUser.Correo, "Recuperar Acceso", objUser.FullName, confirmUrl);
 

@@ -208,8 +208,7 @@
         <script src="assets/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
         <script src="assets/plugins/loadingoverlay/loadingoverlay.js"></script>
 
-        <!-- Datatable init js -->
-        <!-- <script src="assets/jquery-ui-1.12.1/jquery-ui.js"></script> -->
+        <script src="assets/js/validacionesGlobales.js"></script>
 
         <script src="assets/js/app.js"></script>
         <!-- <script src="js/Masterp.js" type="text/javascript"></script> -->

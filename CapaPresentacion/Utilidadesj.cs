@@ -82,6 +82,87 @@ namespace CapaPresentacion
             return BCrypt.Net.BCrypt.Verify(password, hash);
         }
 
+        public bool NotificarAcceso(string toEmailUser, string subject, string estudiante, string textoAccion)
+        {
+            try
+            {
+                var from = "xxxxxx@gmail.com"; // Tu correo
+                var name = "Sistema Vocacional";
+                var smtps = "smtp.gmail.com";
+                var port = 587;
+                var password = "xxxxxxx"; // Tu contraseña de aplicación
+
+                var correo = new MailMessage
+                {
+                    From = new MailAddress(from, name)
+                };
+                correo.To.Add(toEmailUser);
+                correo.Subject = subject;
+
+                // Configuración visual y de mensaje basada en la acción
+                string colorEstado = textoAccion == "APROBADO" ? "#1B5E20" : "#B71C1C";
+                string mensajeDetalle = textoAccion == "APROBADO"
+                    ? "Ya puedes iniciar sesión en la aplicación móvil con tus credenciales para realizar tu test de orientación vocacional."
+                    : "Tu acceso a la aplicación ha sido suspendido. Por favor, comunícate con la dirección para más detalles.";
+
+                // Plantilla HTML Responsive con estilos integrados
+                string cuerpo = $@"
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <meta charset='utf-8'>
+                </head>
+                <body style='font-family: Helvetica, Arial, sans-serif; background-color: #f4f4f4; padding: 20px; color: #333333; margin: 0;'>
+                    <div style='max-width: 600px; background-color: #ffffff; margin: 0 auto; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);'>
+                        
+                        <div style='background-color: #442484; padding: 20px; text-align: center;'>
+                            <h2 style='color: #ffffff; margin: 0; letter-spacing: 1px;'>Sistema Vocacional</h2>
+                        </div>
+                        
+                        <div style='padding: 30px;'>
+                            <p style='font-size: 16px;'>Hola <strong>{estudiante}</strong>,</p>
+                            <p style='font-size: 16px;'>Te informamos que el estado de tu cuenta ha sido actualizado.</p>
+                            
+                            <div style='text-align: center; margin: 35px 0;'>
+                                <span style='background-color: {colorEstado}; color: #ffffff; padding: 12px 25px; border-radius: 25px; font-size: 18px; font-weight: bold; letter-spacing: 1px;'>
+                                    ACCESO {textoAccion}
+                                </span>
+                            </div>
+                            
+                            <p style='font-size: 15px; line-height: 1.6; color: #555555; text-align: justify;'>
+                                {mensajeDetalle}
+                            </p>
+                        </div>
+                        
+                        <div style='background-color: #f9f9f9; padding: 15px; text-align: center; border-top: 1px solid #eeeeee;'>
+                            <p style='font-size: 12px; color: #999999; margin: 0;'>Este es un mensaje automático, por favor no respondas a este correo.</p>
+                        </div>
+                        
+                    </div>
+                </body>
+                </html>";
+
+                correo.Body = cuerpo;
+                correo.IsBodyHtml = true;
+                correo.Priority = MailPriority.Normal;
+
+                SmtpClient smtp = new SmtpClient
+                {
+                    Host = smtps,
+                    Port = port,
+                    Credentials = new NetworkCredential(from, password),
+                    EnableSsl = true
+                };
+
+                smtp.Send(correo);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public bool EnviosCorreos(string toEmailUser, string subjec, string nombreUser, string confirmUrl)
         {
             try
@@ -90,7 +171,7 @@ namespace CapaPresentacion
                 var name = "Sistema Vocacional";
                 var smtps = "smtp.gmail.com";
                 var port = 587;
-                var password = "xxxxxxxxx";
+                var password = "xxxxxxx";
 
                 var correo = new MailMessage
                 {

@@ -44,6 +44,7 @@
     <Compile Include="DTOs\ChangeDTO.cs" />
     <Compile Include="DTOs\CuestionarioDTO.cs" />
     <Compile Include="DTOs\DetalleHistDTO.cs" />
+    <Compile Include="DTOs\EmailRequestDTO.cs" />
     <Compile Include="DTOs\EstudianteDTO.cs" />
     <Compile Include="DTOs\HistorialTestDTO.cs" />
     <Compile Include="DTOs\LoginDTO.cs" />

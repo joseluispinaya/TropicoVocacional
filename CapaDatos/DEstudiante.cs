@@ -51,7 +51,8 @@ namespace CapaDatos
                                     Apellidos = dr["Apellidos"].ToString(),
                                     Correo = dr["Correo"].ToString(),
                                     Estado = Convert.ToBoolean(dr["Estado"]),
-                                    Photo = dr["Photo"].ToString()
+                                    Photo = dr["Photo"].ToString(),
+                                    Aprobado = Convert.ToBoolean(dr["Aprobado"])
                                 });
                             }
                         }
@@ -228,6 +229,7 @@ namespace CapaDatos
                                     ClaveHash = dr["ClaveHash"].ToString(),
                                     Estado = Convert.ToBoolean(dr["Estado"]),
                                     Photo = dr["Photo"].ToString(),
+                                    Aprobado = Convert.ToBoolean(dr["Aprobado"]),
                                     NombreUndEd = dr["NombreUndEd"].ToString()
                                 };
                             }
@@ -328,6 +330,43 @@ namespace CapaDatos
             catch (Exception ex)
             {
                 return new Respuesta<List<EEstudiante>> { Estado = false, Mensaje = "Error BD: " + ex.Message };
+            }
+        }
+
+        public Respuesta<bool> CambiarAprobacion(int idEstudiante, bool estado)
+        {
+            try
+            {
+                bool respuesta = false;
+                using (SqlConnection con = ConexionBD.GetInstance().ConexionDB())
+                {
+                    using (SqlCommand cmd = new SqlCommand("usp_ModificarAprobacion", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@IdEstudiante", idEstudiante);
+                        cmd.Parameters.AddWithValue("@Aprobado", estado);
+
+                        SqlParameter outputParam = new SqlParameter("@Resultado", SqlDbType.Bit)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(outputParam);
+
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        respuesta = Convert.ToBoolean(outputParam.Value);
+                    }
+                }
+                return new Respuesta<bool>
+                {
+                    Estado = respuesta,
+                    Mensaje = respuesta ? "Accion realizado con exito" : "Error al realizar la accion intente mas tarde"
+                };
+            }
+            catch (Exception)
+            {
+                return new Respuesta<bool> { Estado = false, Mensaje = "Ocurrió un error en la BD" };
             }
         }
 

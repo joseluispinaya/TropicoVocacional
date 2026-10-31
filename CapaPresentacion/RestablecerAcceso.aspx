@@ -154,7 +154,7 @@
                 </button>
                 
                 <div class="text-center mt-4">
-                    <a href="Login.aspx" class="text-muted small"><i class="fas fa-arrow-left mr-1"></i> Volver al Login</a>
+                    <a href="Login.aspx" id="btnVolverLogin" class="text-muted small"><i class="fas fa-arrow-left mr-1"></i> Volver al Login</a>
                 </div>
 
             </div>

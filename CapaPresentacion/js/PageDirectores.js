@@ -5,6 +5,33 @@ let idEditar = 0;
 $(document).ready(function () {
 
     listaDirectores();
+
+    // 1. Filtro para Nombres y Apellidos (Solo letras y caracteres latinos)
+    // ^ y $ indican que toda la cadena debe coincidir.
+    // \s permite espacios (para nombres compuestos).
+    $("#txtNombres, #txtApellidos").inputFilter(function (value) {
+        return /^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]*$/.test(value);
+    });
+
+    // 2. Filtro para Celular (Solo números, máximo 8 dígitos para Bolivia)
+    $("#txtCelular").inputFilter(function (value) {
+        // \d* significa "solo dígitos numéricos"
+        // && value.length <= 8 bloquea que escriban más de 8 caracteres
+        return /^\d*$/.test(value) && value.length <= 8;
+    });
+
+    // 3. Filtro para Carnet de Identidad boliviano  "1234567-1B"
+    // Permite solo números al inicio.
+    // Permite de forma opcional un solo guion (-).
+    // Después del guion permite números y como máximo una sola letra al final.
+    $("#txtNroci").inputFilter(function (value) {
+        return /^\d*(-[0-9]*[a-zA-Z]?)?$/.test(value) && value.length <= 12;
+    });
+
+    //$("#txtNroci").inputFilter(function (value) {
+    //    return /^[a-zA-Z0-9\-]*$/.test(value) && value.length <= 15;
+    //});
+
 });
 
 function listaDirectores() {

@@ -20,7 +20,7 @@ namespace CapaDatos
         }
         #endregion
 
-        
+        // Data Source=.;Initial Catalog=TropVocacionalBD;Integrated Security=True
 
         public SqlConnection ConexionDB()
         {

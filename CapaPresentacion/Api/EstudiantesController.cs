@@ -122,24 +122,14 @@ namespace CapaPresentacion.Api
                 // 3. Llamada a la capa de datos
                 var resp = NEstudiante.GetInstance().LoginEstudiante(loginDTO.Correo);
 
-                // 4. Verificar si ocurrió un error grave en la BD (Manejado por el catch de la capa de datos)
-                if (!resp.Estado && resp.Mensaje == "Error servidor")
-                {
-                    return Ok(new Respuesta<EEstudiante>
-                    {
-                        Estado = false,
-                        Mensaje = "Ocurrió un error en el servidor. Intente más tarde.",
-                        Data = null
-                    });
-                }
 
-                // 5. Verificar si el usuario existe en BD
+                // 5. Verificar si el usuario existe en BD 
                 if (!resp.Estado || resp.Data == null)
                 {
                     return Ok(new Respuesta<EEstudiante>
                     {
                         Estado = false,
-                        Mensaje = "Usuario o Contraseña incorrectos.",
+                        Mensaje = resp.Mensaje,
                         Data = null
                     });
                 }
@@ -153,6 +143,16 @@ namespace CapaPresentacion.Api
                     {
                         Estado = false,
                         Mensaje = "Su cuenta esta inactiva. Contáctese con el Dep. de Sistemas.",
+                        Data = null
+                    });
+                }
+
+                if (!objEst.Aprobado)
+                {
+                    return Ok(new Respuesta<EEstudiante>
+                    {
+                        Estado = false,
+                        Mensaje = "Su cuenta está pendiente de revisión. Personal de la unidad debe aprobar su registro para ingresar.",
                         Data = null
                     });
                 }
@@ -222,16 +222,15 @@ namespace CapaPresentacion.Api
                 // 3. Llamada a la capa de datos
                 var resp = NEstudiante.GetInstance().LoginEstudiante(changeDTO.Correo);
 
-                // 4. Verificar si ocurrió un error grave en la BD (Manejado por el catch de la capa de datos)
-                if (!resp.Estado && resp.Mensaje == "Error servidor")
-                {
-                    return Ok(new Respuesta<bool>
-                    {
-                        Estado = false,
-                        Mensaje = "Ocurrió un error en el servidor. Intente más tarde.",
-                        Data = false
-                    });
-                }
+                //if (!resp.Estado && resp.Mensaje == "Error servidor")
+                //{
+                //    return Ok(new Respuesta<bool>
+                //    {
+                //        Estado = false,
+                //        Mensaje = "Ocurrió un error en el servidor. Intente más tarde.",
+                //        Data = false
+                //    });
+                //}
 
                 // 5. Verificar si el estudiante existe en BD
                 if (!resp.Estado || resp.Data == null)
@@ -276,21 +275,55 @@ namespace CapaPresentacion.Api
             }
         }
 
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+        [HttpPost]
+        [Route("recuperarAcceso")]
+        public IHttpActionResult RecuperacionAcceso([FromBody] EmailRequestDTO request)
+        {
+            try
+            {
+                // 2. Validación temprana de campos vacíos (Ahorra consultas a la BD)
+                if (string.IsNullOrEmpty(request.Correo))
+                {
+                    return Ok(new Respuesta<bool>
+                    {
+                        Estado = false,
+                        Mensaje = "Debe ingresar un correo."
+                    });
+                }
 
-        //public void Post([FromBody] string value)
-        //{
-        //}
+                // 3. Llamada a la capa de datos
+                var resp = NEstudiante.GetInstance().LoginEstudiante(request.Correo);
 
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+                if (!resp.Estado || resp.Data == null)
+                {
+                    return Ok(new Respuesta<bool>
+                    {
+                        Estado = false,
+                        Mensaje = "El correo electronico no se ecuentra en la base de datos."
+                    });
+                }
 
-        //public void Delete(int id)
-        //{
-        //}
+                var objUser = resp.Data;
+                var tokenSesion = Guid.NewGuid().ToString("N");
+                var ruta = "est";
+                string confirmUrl = $"https://isaacpintado16-001-site1.etempurl.com/RestablecerAcceso.aspx?email={objUser.Correo}&token={tokenSesion}&ruta={ruta}";
+
+                bool correoEnviado = Utilidadesj.GetInstance().EnviosCorreos(objUser.Correo, "Recuperar Acceso", objUser.FullName, confirmUrl);
+
+                return Ok(new Respuesta<bool>
+                {
+                    Estado = correoEnviado,
+                    Mensaje = correoEnviado ? "Se te ha enviado un correo con las instrucciones para cambiar la contraseña." : "Error al recuperar. No se pudo enviar correo."
+                });
+            }
+            catch (Exception)
+            {
+                return Ok(new Respuesta<bool>
+                {
+                    Estado = false,
+                    Mensaje = "Error interno en el servidor"
+                });
+            }
+        }
     }
 }

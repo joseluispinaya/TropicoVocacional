@@ -11,6 +11,7 @@
         public string ClaveHash { get; set; }
         public string Photo { get; set; }
         public bool Estado { get; set; }
+        public bool Aprobado { get; set; }
         // auxiliar
         public string NombreUndEd { get; set; }
         public string FullName => $"{Nombres} {Apellidos}";

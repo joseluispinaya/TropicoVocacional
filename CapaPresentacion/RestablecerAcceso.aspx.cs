@@ -58,5 +58,43 @@ namespace CapaPresentacion
             }
         }
 
+        [WebMethod]
+        public static Respuesta<string> RestablecerPasswordEst(string correo, string token, string passNueva)
+        {
+            try
+            {
+                // -------------------------------------------------------------
+                // AQUI IRÁ TU LÓGICA DE VALIDACIÓN DEL TOKEN EN EL FUTURO
+                // Ejemplo: Si (!ValidarToken(correo, token)) return error...
+                // -------------------------------------------------------------
+
+                var utilidades = Utilidadesj.GetInstance();
+
+                var respBD = NEstudiante.GetInstance().LoginEstudiante(correo);
+
+                if (!respBD.Estado || respBD.Data == null)
+                {
+                    return new Respuesta<string> { Estado = false, Mensaje = "El correo no se encuentra registrado en el sistema." };
+                }
+
+                var objUser = respBD.Data;
+
+                string claveNewEncrypt = utilidades.Hash(passNueva);
+
+                var respUpdate = NEstudiante.GetInstance().ActualizarClave(objUser.IdEstudiante, claveNewEncrypt);
+
+                if (respUpdate.Estado)
+                {
+                    return new Respuesta<string> { Estado = true, Mensaje = "Contraseña restablecida exitosamente." };
+                }
+
+                return new Respuesta<string> { Estado = false, Mensaje = respUpdate.Mensaje };
+            }
+            catch (Exception)
+            {
+                return new Respuesta<string> { Estado = false, Mensaje = "Error interno en el servidor." };
+            }
+        }
+
     }
 }

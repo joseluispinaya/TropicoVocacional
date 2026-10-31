@@ -8,6 +8,9 @@ let listaTemp = [];
 $(document).ready(function () {
 
     listaUnidadesEd();
+    $("#txtNroCel").inputFilter(function (value) {
+        return /^\d*$/.test(value) && value.length <= 8;
+    });
 });
 
 function listaUnidadesEd() {
@@ -299,6 +302,15 @@ $("#btnGuardarCambios").on("click", function () {
         const mensaje = `Debe completar el campo : "${inputs_sin_valor[0].name}"`;
         toastr.warning("", mensaje)
         $(`input[name="${inputs_sin_valor[0].name}"]`).focus()
+        habilitarBoton();
+        return;
+    }
+
+    let nom = $("#txtnombres").val().trim();
+
+    if (nom.length < 11) {
+        toastr.warning("Debe ingresar un Nombre con 20 caracteres minimo.");
+        $("#txtnombres").focus();
         habilitarBoton();
         return;
     }

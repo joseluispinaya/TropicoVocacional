@@ -54,5 +54,10 @@ namespace CapaNegocio
         {
             return DEstudiante.GetInstance().ObtenerEstudiantesUnidEd(idUnidadEducativa, busqueda);
         }
+
+        public Respuesta<bool> CambiarAprobacion(int idEstudiante, bool estado)
+        {
+            return DEstudiante.GetInstance().CambiarAprobacion(idEstudiante, estado);
+        }
     }
 }
